@@ -1,7 +1,16 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>雾钟镇：最后的守夜人</title>
 <style>
-:root{color-scheme:dark;--gold:#e7c980;--paper:#eadcb8}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101713;color:var(--paper);font-family:Georgia,"Noto Serif SC","Songti SC",serif}#game{position:fixed;inset:0}.hud{position:fixed;inset:0;pointer-events:none}.topbar{position:absolute;top:14px;left:16px;display:flex;gap:9px;align-items:flex-start}.card{background:#111a18e8;border:1px solid #c8b67877;box-shadow:0 6px 24px #0005;backdrop-filter:blur(6px);padding:9px 12px;border-radius:4px}.title{color:var(--gold);font-size:16px;letter-spacing:3px}.map-name,.player-name{display:block;margin-top:3px;color:#c1b99f;font-size:11px}.player-name{color:#ead8a8}.resource-card{display:flex;gap:12px;font-size:12px;color:#e8dfc7}.resource-card strong{color:var(--gold);font-weight:500}.help{position:absolute;top:14px;right:15px;line-height:1.7;font-size:12px}.return-home{position:absolute;top:74px;right:15px;pointer-events:auto;cursor:pointer;color:#e8dfc7}.minimap{position:absolute;top:124px;right:15px;width:224px;padding:8px;background:#111a18ed;border:1px solid #c8b67899;box-shadow:0 8px 28px #0008;border-radius:5px;pointer-events:auto;z-index:2;cursor:pointer}.minimap[hidden]{display:none}.minimap-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;color:#f0d994;font-size:12px;letter-spacing:1px}.minimap-head kbd{font:11px Georgia,serif;border:1px solid #c8b67888;border-radius:3px;padding:2px 5px;color:#e4d7b3}.minimap canvas{display:block;width:100%;aspect-ratio:3/2;border:1px solid #d4c08155;background:#20342c;border-radius:3px}.minimap-note{display:block;margin-top:5px;color:#bdb59c;font-size:10px}.minimap.large{top:124px;right:15px;left:auto;transform:none;width:min(360px,calc(100vw - 30px));padding:9px;background:#18231fdc;z-index:2}.minimap.large .minimap-head{font-size:13px}.minimap.large .minimap-note{font-size:10px}.hint{position:absolute;display:none;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;pointer-events:none;align-items:center;gap:9px;max-width:calc(100vw - 28px);padding:7px 12px;border:1px solid #d6bd77;background:#17211eea;color:#f4e5bb;font-size:13px;white-space:nowrap;border-radius:5px;box-shadow:0 4px 16px #0006}.hint kbd{display:inline-grid;place-items:center;width:23px;height:23px;border:1px solid #d6bd77;border-radius:4px;color:#f3d484;font:bold 13px Georgia,serif}.fade{position:fixed;inset:0;z-index:15;background:#050807;opacity:0;pointer-events:none;transition:opacity .24s ease}.fade.cover{opacity:1}@media(max-width:700px){.mobile-pad{display:grid}.help{display:none}.hint{bottom:16px;left:auto;right:14px;transform:none;max-width:calc(100vw - 120px);font-size:12px}.panel{padding:15px}.avatar-grid{grid-template-columns:repeat(4,1fr)}.resource-card{display:none}.minimap{top:12px;right:12px;width:155px;padding:6px}.minimap-head{font-size:10px}.minimap-note{font-size:9px}.minimap.large{top:12px;right:12px;width:min(300px,calc(100vw - 24px));padding:8px}.minimap.large .minimap-head{font-size:12px}}
+:root{color-scheme:dark;--gold:#e7c980;--paper:#eadcb8}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101713;color:var(--paper);font-family:Georgia,"Noto Serif SC","Songti SC",serif}#game{position:fixed;inset:0}.hud{position:fixed;inset:0;pointer-events:none}.topbar{position:absolute;top:14px;left:16px;display:flex;gap:9px;align-items:flex-start}.card{background:#111a18e8;border:1px solid #c8b67877;box-shadow:0 6px 24px #0005;backdrop-filter:blur(6px);padding:9px 12px;border-radius:4px}.title{color:var(--gold);font-size:16px;letter-spacing:3px}.map-name,.player-name{display:block;margin-top:3px;color:#c1b99f;font-size:11px}.player-name{color:#ead8a8}.resource-card{display:flex;gap:12px;font-size:12px;color:#e8dfc7}.resource-card strong{color:var(--gold);font-weight:500}.help{position:absolute;top:14px;right:15px;line-height:1.7;font-size:12px}.return-home{position:absolute;top:14px;right:15px;pointer-events:auto;cursor:pointer;color:#e8dfc7}.minimap{position:absolute;top:64px;right:15px;width:224px;padding:8px;background:#111a18ed;border:1px solid #c8b67899;box-shadow:0 8px 28px #0008;border-radius:5px;pointer-events:auto;z-index:2;cursor:pointer}.minimap[hidden]{display:none}.minimap-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;color:#f0d994;font-size:12px;letter-spacing:1px}.minimap-head kbd{font:11px Georgia,serif;border:1px solid #c8b67888;border-radius:3px;padding:2px 5px;color:#e4d7b3}.minimap canvas{display:block;width:100%;aspect-ratio:3/2;border:1px solid #d4c08155;background:#20342c;border-radius:3px}.minimap-note{display:block;margin-top:5px;color:#bdb59c;font-size:10px}
+.flight-hud{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);z-index:7;display:flex;align-items:center;gap:14px;padding:8px 12px;border:1px solid #c8b67899;background:#111a18e8;box-shadow:0 8px 28px #0008;border-radius:4px;pointer-events:auto}
+.flight-hud[hidden]{display:none}
+.flight-hud .flight-copy{display:flex;flex-direction:column;gap:1px}
+.flight-hud small{color:#9fa992;font-size:9px;letter-spacing:1px}
+.flight-hud strong{color:#eed38c;font-size:12px;font-weight:500;letter-spacing:1px}
+.flight-hud span{font:11px Georgia,serif;color:#cfe6df;white-space:nowrap}
+.flight-hud button{border:1px solid #c8b67899;background:#2b2a20;color:#f2dda0;padding:5px 12px;border-radius:3px;font:11px Georgia,"Noto Serif SC",serif;cursor:pointer}
+.flight-hud button:hover{background:#3a3627}
+@media(max-width:700px){.flight-hud{bottom:182px;gap:8px;padding:6px 9px}.flight-hud span{font-size:9px}.flight-hud button{padding:4px 8px;font-size:10px}}.minimap.large{top:50%;left:50%;right:auto;transform:translate(-50%,-50%);width:min(820px,calc(100vw - 30px));max-height:calc(100vh - 30px);padding:12px;background:#18231ff2;z-index:20;box-shadow:0 18px 70px #000c}.minimap.large .minimap-head{font-size:14px}.minimap.large .minimap-note{font-size:10px}.hint{position:absolute;display:none;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;pointer-events:none;align-items:center;gap:9px;max-width:calc(100vw - 28px);padding:7px 12px;border:1px solid #d6bd77;background:#17211eea;color:#f4e5bb;font-size:13px;white-space:nowrap;border-radius:5px;box-shadow:0 4px 16px #0006}.hint kbd{display:inline-grid;place-items:center;width:23px;height:23px;border:1px solid #d6bd77;border-radius:4px;color:#f3d484;font:bold 13px Georgia,serif}.fade{position:fixed;inset:0;z-index:15;background:#050807;opacity:0;pointer-events:none;transition:opacity .24s ease}.fade.cover{opacity:1}@media(max-width:700px){.mobile-pad{display:grid}.help{display:none}.return-home{top:auto;bottom:142px;right:14px}.hint{bottom:16px;left:auto;right:14px;transform:none;max-width:calc(100vw - 120px);font-size:12px}.panel{padding:15px}.avatar-grid{grid-template-columns:repeat(4,1fr)}.resource-card{display:none}.minimap{top:12px;right:12px;width:155px;padding:6px}.minimap-head{font-size:10px}.minimap-note{font-size:9px}.minimap.large{top:50%;left:50%;right:auto;transform:translate(-50%,-50%);width:min(380px,calc(100vw - 24px));max-height:calc(100vh - 24px);padding:8px;z-index:20}.minimap.large .minimap-head{font-size:12px}}
 .menu{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at 50% 38%,#355247b8,#101713f2 72%)}.menu[hidden]{display:none}.menu-box{width:min(480px,100%);padding:36px 30px;text-align:center;border:1px solid #c8b67899;border-radius:8px;background:linear-gradient(145deg,#263c34f2,#151e1bf5);box-shadow:0 18px 70px #0009}.menu-box h1{margin:10px 0;color:#e7c980;font-size:38px;letter-spacing:7px}.menu-box p{line-height:1.9;color:#d2c7a7}.menu-actions{display:grid;gap:10px;margin-top:24px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 15px;border:1px solid #b49a58;border-radius:5px;background:linear-gradient(#f0e2bd,#d2bd8c);color:#302b20;font:600 14px Georgia,serif;text-decoration:none;cursor:pointer}.button:hover{filter:brightness(1.08)}.button:disabled{opacity:.5;cursor:not-allowed}.overlay{position:fixed;inset:0;z-index:12;display:none;place-items:center;padding:18px;background:#050807a8;backdrop-filter:blur(3px);pointer-events:auto}.overlay.open{display:grid}.panel{width:min(560px,100%);max-height:min(82vh,760px);overflow:auto;padding:22px;border:1px solid #c8b678;border-radius:7px;background:linear-gradient(145deg,#35483d,#1b2721);box-shadow:0 18px 60px #000b;color:#eadcb8;line-height:1.7}.panel h2{margin:0;color:#e7c980}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.close{border:0;background:none;color:#e8dfc7;font-size:26px;cursor:pointer}.name-input{display:block;width:100%;margin-top:6px;padding:10px;border:1px solid #b49a58;border-radius:4px;background:#101713;color:#fff}.avatar-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:12px 0}.avatar-choice{padding:10px;border:1px solid #8c805d;border-radius:4px;background:#29382f;font-size:22px;cursor:pointer}.avatar-choice.selected{outline:2px solid #e7c980}.shop-row,.quest{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #c8b67855}.shop-row small,.quest small{display:block;color:#d0c5a6}.badge{color:#e7c980}.toast{position:absolute;top:76px;left:16px;opacity:0;transition:opacity .2s;pointer-events:none}.toast.show{opacity:1}.mobile-pad{display:none;position:absolute;left:14px;bottom:14px;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,44px);gap:4px;pointer-events:auto}.mobile-pad button{border:1px solid #c8b67899;border-radius:6px;background:#17211edb;color:#f3e5c1;font-size:17px}.mobile-pad button:nth-child(1){grid-column:2}.mobile-pad button:nth-child(2){grid-column:1;grid-row:2}.mobile-pad button:nth-child(3){grid-column:2;grid-row:2}.mobile-pad button:nth-child(4){grid-column:3;grid-row:2}@media(max-width:700px){.menu-box{padding:28px 20px}.menu-box h1{font-size:30px}.mobile-pad{display:grid}.help{display:none}.hint{bottom:16px;left:auto;right:14px;transform:none;max-width:calc(100vw - 120px);font-size:12px}.panel{padding:15px}.avatar-grid{grid-template-columns:repeat(4,1fr)}.resource-card{display:none}.minimap{top:12px;right:12px;width:155px;padding:6px}.minimap-head{font-size:10px}.minimap-note{font-size:9px}.minimap.large{top:12px;right:12px;width:min(300px,calc(100vw - 24px));padding:8px}.minimap.large .minimap-head{font-size:12px}}
 </style>
 <style>
@@ -361,7 +370,8 @@ body.lookingout .mobile-pad,body.lookingout .touch-interact,body.lookingout .hin
 <script src="vendor/three-gltf.min.js" onerror="window.__mistbellThreeLoadFailed=true"></script></head><body>
 <div id="game"></div><div class="vignette" aria-hidden="true"></div><div id="locationTitle" class="location-title" aria-live="polite"></div><div id="balconyMist" class="balcony-mist" aria-hidden="true"></div>
 <div id="forestOverlay" class="forest-overlay" aria-hidden="true"><i></i><i></i><i></i></div><div id="auroraOverlay" class="aurora-overlay" aria-hidden="true"></div><div id="forestWhisper" class="forest-whisper" aria-live="polite"></div><div id="fade" class="fade"></div>
-<div class="hud"><div class="topbar"><div class="card"><span class="title">雾钟镇</span><small id="mapName" class="map-name">雾钟镇</small><small id="playerLabel" class="player-name">🧙🏻‍♀️ 新旅人</small><small id="storyObjective" class="story-objective" hidden></small><div id="routeHud" class="route-hud" hidden role="button" tabindex="0" aria-label="任务路线指引，点击或按 G 切换"><span id="routeCompass" class="route-compass">↑</span><div class="route-copy"><strong id="routeLabel" class="route-label">当前指引</strong><small id="routeHint" class="route-hint"></small></div><em id="routeDistance" class="route-distance"></em></div><div id="sideQuestHud" class="side-quest-hud" hidden role="button" tabindex="0" aria-label="进行中的委托"><div class="side-quest-head"><span>进行中的委托</span><em id="sideQuestCount"></em></div><div id="sideQuestList" class="side-quest-list"></div></div></div><div id="resourceCard" class="card resource-card"><span>金币 <strong id="hudGold">120</strong></span><span>体力 <strong id="hudHp">100</strong></span><span>魔力 <strong id="hudMp">30</strong></span><span>魔咒 <strong id="hudSpells">星火咒</strong></span></div><button id="profileButton" class="card button" style="pointer-events:auto">旅人档案</button><button id="timeButton" class="card button time-button" style="pointer-events:auto" aria-label="切换昼夜">☾ 18:30</button><div id="toast" class="card toast"></div></div><div class="card help">W A S D 移动 · Shift 奔跑 · 空格跳跃 · Ctrl 蹲下 · V 视角 · T 昼夜<br>靠近建筑按 E 进入 · F 林中施法 · H 治疗药剂 · J 魔力药剂 · <span id="lookHelp">点击画面锁定鼠标后移动鼠标环视</span> · M 地图 · R 表情 · G 指引</div><button id="returnHome" class="card return-home">返回启程界面</button><div id="minimap" class="minimap" role="button" tabindex="0" aria-label="小地图，点击或按 M 放大" hidden><div class="minimap-head"><span id="minimapTitle">雾钟镇</span><kbd>M</kbd></div><canvas id="miniMapCanvas" width="448" height="288"></canvas><small id="minimapNote" class="minimap-note">地图圆点标出地点 · 地图随旅人移动</small></div><div id="hint" class="card hint"><kbd>E</kbd> <span id="hintText"></span></div><div class="mobile-pad"><button data-dir="up">▲</button><button data-dir="left">◀</button><button data-dir="down">▼</button><button data-dir="right">▶</button></div><button id="touchInteract" class="touch-interact" type="button" aria-label="互动" hidden>E</button></div>
+<div class="hud"><div class="topbar"><div class="card"><span class="title">雾钟镇</span><small id="mapName" class="map-name">雾钟镇</small><small id="playerLabel" class="player-name">🧙🏻‍♀️ 新旅人</small><small id="storyObjective" class="story-objective" hidden></small><div id="routeHud" class="route-hud" hidden role="button" tabindex="0" aria-label="任务路线指引，点击或按 G 切换"><span id="routeCompass" class="route-compass">↑</span><div class="route-copy"><strong id="routeLabel" class="route-label">当前指引</strong><small id="routeHint" class="route-hint"></small></div><em id="routeDistance" class="route-distance"></em></div><div id="sideQuestHud" class="side-quest-hud" hidden role="button" tabindex="0" aria-label="进行中的委托"><div class="side-quest-head"><span>进行中的委托</span><em id="sideQuestCount"></em></div><div id="sideQuestList" class="side-quest-list"></div></div></div><div id="resourceCard" class="card resource-card"><span>金币 <strong id="hudGold">120</strong></span><span>体力 <strong id="hudHp">100</strong></span><span>魔力 <strong id="hudMp">30</strong></span><span>魔咒 <strong id="hudSpells">星火咒</strong></span></div><button id="profileButton" class="card button" style="pointer-events:auto">旅人档案</button><button id="timeButton" class="card button time-button" style="pointer-events:auto" aria-label="切换昼夜">☾ 18:30</button><div id="toast" class="card toast"></div></div><button id="returnHome" class="card return-home">返回启程界面</button><div id="minimap" class="minimap" role="button" tabindex="0" aria-label="小地图，点击放大或收起" hidden><div class="minimap-head"><span id="minimapTitle">雾钟镇</span></div><canvas id="miniMapCanvas" width="448" height="288"></canvas><small id="minimapNote" class="minimap-note">地图圆点标出地点 · 地图随旅人移动</small></div><div id="flightHud" class="flight-hud" hidden><div class="flight-copy"><small>风痕扫帚</small><strong>飞行中</strong></div><span id="flightAlt">高度 3.0 m</span><button id="flightLand" type="button">降落</button></div>
+<div id="hint" class="card hint"><kbd>E</kbd> <span id="hintText"></span></div><div class="mobile-pad"><button data-dir="up">▲</button><button data-dir="left">◀</button><button data-dir="down">▼</button><button data-dir="right">▶</button></div><button id="touchInteract" class="touch-interact" type="button" aria-label="互动" hidden>E</button></div>
 <button id="musicButton" class="music-control" type="button" aria-label="背景音乐"><span>♪</span><small id="musicButtonLabel">音乐</small></button>
 <div id="combatHud" class="combat-hud" hidden>
  <div class="combat-head"><span id="combatTitle">禁秘森林 · 暗影来袭</span><span id="combatWave">第一波</span></div>
@@ -480,10 +490,10 @@ body.lookingout .mobile-pad,body.lookingout .touch-interact,body.lookingout .hin
  <div class="panel-head"><div><small class="guide-kicker">BEFORE THE BELL · 启程前</small><h2>雾钟镇游戏指南</h2></div><button class="close" id="guideClose" type="button">×</button></div>
  <p class="guide-lead">钟声将熄。你将以一名新巫师的身份进入雾钟镇，调查凯勒·斯威尼与禁秘森林里的黑塔。</p>
  <div class="guide-grid">
-  <section class="guide-section"><h3>基本操作</h3><div class="guide-keys"><span><kbd>W A S D</kbd>移动</span><span><kbd>Shift</kbd>奔跑</span><span><kbd>空格</kbd>跳跃</span><span><kbd>Ctrl</kbd>蹲下</span><span><kbd>E</kbd>互动 / 进出建筑</span><span><kbd>F</kbd>战斗施法</span><span><kbd>H</kbd>治疗用品</span><span><kbd>J</kbd>魔力药剂</span><span><kbd>M</kbd>地图</span><span><kbd>T</kbd>昼夜</span><span><kbd>V</kbd>第一 / 第三人称</span><span><kbd>R</kbd>更换表情（5 秒）</span><span><kbd>G</kbd>路线指引</span></div></section>
+  <section class="guide-section"><h3>基本操作</h3><div class="guide-keys"><span><kbd>W A S D</kbd>移动</span><span><kbd>Shift</kbd>奔跑</span><span><kbd>空格</kbd>跳跃 / 飞行上升</span><span><kbd>Ctrl</kbd>蹲下 / 飞行下降</span><span><kbd>E</kbd>互动 / 进出建筑</span><span><kbd>F</kbd>战斗施法</span><span><kbd>H</kbd>治疗用品</span><span><kbd>J</kbd>魔力药剂</span><span><kbd>M</kbd>地图</span><span><kbd>T</kbd>昼夜</span><span><kbd>V</kbd>第一 / 第三人称</span><span><kbd>R</kbd>更换表情（5 秒）</span><span><kbd>G</kbd>路线指引</span><span><kbd>空格</kbd>跳跃 / 飞行上升</span><span><kbd>Ctrl</kbd>蹲下 / 飞行下降</span></div><p style="margin:8px 0 0;color:#aab29d;font-size:10px;line-height:1.6">Windows：点击画面锁定鼠标，移动鼠标环视；Mac：三指拖动或在画面内按住拖动环视。</p></section>
   <section class="guide-section"><h3>成长与资源</h3><p>创建时选择的出身与魔杖会影响初始金币、声望与战斗倾向；击败敌人和完成委托会获得经验、金币与声望。升级会提高生命与魔力上限；声望会影响 NPC 的态度与可接委托。</p><p>生命归零会被送回镇中心并损失部分金币；在旅店睡觉、喝泉水或使用草药可以恢复。</p></section>
   <section class="guide-section"><h3>主线路线</h3><p>先向马琳、艾德蒙·鸦影和守夜人打听钟声的异样，再进入禁秘森林。森林四角各有一名凯勒的精英手下，击败四人后，黑塔的道路才会开启。画面左上的路线指引会标出下一站，按 G 可隐藏或恢复。右下角的 ♪ 可以开关背景音乐，音量在旅人档案里调整。进塔前可在镇务委托板接下五条预备支线，它们会削弱凯勒的灵魂护盾；终极战还有残影、暗影裂隙和狂暴阶段。</p></section>
-  <section class="guide-section"><h3>城镇设施</h3><p>星尘商店出售药剂与装备；镇务委托板可以接取任务；鸦影古堡能研读古籍，静坐会让游戏时间流逝；星月喷泉日夜恢复不同；渡鸦旅店可以休息并上二楼看夜景；草药温室可以购买种子、播种、浇水和施肥，成熟后收获；禁秘森林在夜晚偶尔会出现极光。</p></section>
+  <section class="guide-section"><h3>城镇设施</h3><p>星尘商店出售药剂与装备；镇务委托板可以接取任务；鸦影古堡能研读古籍，静坐会让游戏时间流逝；星月喷泉日夜恢复不同；渡鸦旅店可以休息并上二楼看夜景；草药温室可以购买种子、播种、浇水和施肥，成熟后收获；风痕扫帚棚可以花 20 金币租扫帚飞行，WASD 控制方向，空格上升，Ctrl 下降，E 降落；雾钟镇上空在夜晚偶尔会出现极光。</p></section>
   <section class="guide-section"><h3>对话与档案</h3><p>靠近 NPC 按 E 后可以直接输入文字交谈，关键话题会推进主线。游戏会自动保存；启程页的「旧日档案」可以查看、读取或封存旧进度。</p></section>
  </div>
  <div class="guide-foot"><span>— 守夜人簿册 · 启程页 —</span><button class="button" id="guideDone" type="button">知道，开始写档案</button></div>
@@ -831,8 +841,8 @@ const maps={
   {id:'forestDoor',x:2150,z:1325,r:150,label:'禁林入口',action:'map',target:'forest',spawn:[500,660]},
   {id:'greenhouseDoor',x:1575,z:1558,r:110,zone:'greenhouse',label:'草药温室',action:'map',target:'greenhouse',spawn:[400,420]},
   {id:'moonwellDoor',x:1250,z:1115,r:100,zone:'fountain',label:'星月喷泉',action:'map',target:'moonwell',spawn:[400,430]},
-  {id:'sentinelDoor',x:925,z:1333,r:100,zone:'statue',label:'守夜人雕像',action:'map',target:'sentinelSanctum',spawn:[400,430]},{id:'nameFrag1',x:925,z:1215,r:75,label:'守夜人的第一段名字',action:'quest',quest:'names',fragment:'f1'}
- ],npcs:[{id:'shopkeeper',name:'奥利凡·星尘',emoji:'🧙🏻‍♀️',x:560,z:1320,r:60,lines:['欢迎来到星尘商店。扫把、药剂与咒语书都备好了。']},{id:'hermina',name:'赫敏娜·铁笔',emoji:'🧙🏼‍♀️',x:1160,z:810,r:56,lines:['镇务委托板由我登记。日常、紧急、高危，量力而行。']},{id:'ranger',name:'林地守望者',emoji:'🧝🏻',x:1970,z:1200,r:58,lines:['禁林里有雾林狼出没。准备好之后再踏入林中。']}],mapLabels:[{name:'鸦影古堡',x:1250,z:498,big:true},{name:'星尘商店',x:686,z:1097},{name:'渡鸦旅店',x:1786,z:997},{name:'草药温室',x:1575,z:1425},{name:'镇务委托',x:1075,z:725},{name:'星月喷泉',x:1250,z:1000},{name:'守夜人',x:925,z:1300},{name:'禁林入口',x:2150,z:1325}]},
+  {id:'sentinelDoor',x:925,z:1333,r:100,zone:'statue',label:'守夜人雕像',action:'map',target:'sentinelSanctum',spawn:[400,430]},{id:'nameFrag1',x:925,z:1215,r:75,label:'守夜人的第一段名字',action:'quest',quest:'names',fragment:'f1'},{id:'broomRide',x:1550,z:760,r:92,label:'风痕扫帚棚',action:'broom'}
+ ],npcs:[{id:'shopkeeper',name:'奥利凡·星尘',emoji:'🧙🏻‍♀️',x:560,z:1320,r:60,lines:['欢迎来到星尘商店。扫把、药剂与咒语书都备好了。']},{id:'hermina',name:'赫敏娜·铁笔',emoji:'🧙🏼‍♀️',x:1160,z:810,r:56,lines:['镇务委托板由我登记。日常、紧急、高危，量力而行。']},{id:'ranger',name:'林地守望者',emoji:'🧝🏻',x:1970,z:1200,r:58,lines:['禁林里有雾林狼出没。准备好之后再踏入林中。']}],mapLabels:[{name:'鸦影古堡',x:1250,z:498,big:true},{name:'星尘商店',x:686,z:1097},{name:'渡鸦旅店',x:1786,z:997},{name:'草药温室',x:1575,z:1425},{name:'镇务委托',x:1075,z:725},{name:'星月喷泉',x:1250,z:1000},{name:'守夜人',x:925,z:1300},{name:'扫帚飞行点',x:1550,z:760},{name:'禁林入口',x:2150,z:1325}]},
  library:{name:'鸦影古堡图书馆',size:[800,600],floor:'#523629',indoor:true,obstacles:[...walls(800,600,'#39231f'),{x:123,z:190,w:102,d:236,color:'#68442e',kind:'shelf',label:'古代史'},{x:269,z:190,w:102,d:236,color:'#76513a',kind:'shelf',label:'咒文学'},{x:715,z:190,w:70,d:236,color:'#68442e',kind:'shelf',label:'星图'},{x:445,z:320,w:180,d:100,color:'#78533a',kind:'table',label:'阅览桌'}],interactables:[{id:'exit',x:400,z:535,r:65,label:'离开图书馆',action:'map',target:'town',spawn:[1250,720]},{id:'sideLetter',x:650,z:420,r:72,label:'把信交给艾德蒙',action:'quest',quest:'letter'},{id:'nameFrag2',x:735,z:390,r:65,label:'守夜人的第二段名字',action:'quest',quest:'names',fragment:'f2'},{id:'bookAncient',x:123,z:345,r:72,label:'翻阅《雾钟镇古代史》',action:'book',book:'ancient'},{id:'bookRunes',x:269,z:345,r:72,label:'翻阅《咒文学》',action:'book',book:'runes'},{id:'bookStars',x:715,z:345,r:72,label:'翻阅《星图》',action:'book',book:'stars'},{id:'studyTable',x:445,z:450,r:72,label:'在阅览桌研读',action:'library'}],npcs:[{id:'librarian',name:'艾德蒙·鸦影',emoji:'🧙🏻‍♂️',x:540,z:205,r:55,lines:['书架间浮着细小尘埃。付出金币或时间，古籍会教你拓展魔力。']}]},
  inn:{name:'渡鸦旅店',size:[800,600],floor:'#664a34',indoor:true,wallHeight:3.4,obstacles:[...walls(800,600,'#38271c'),{x:640,z:145,w:170,d:54,color:'#4d3021',kind:'counter',label:'酒馆柜台'}],interactables:[{id:'exit',x:400,z:535,r:72,label:'离开旅店',action:'map',target:'town',spawn:[1775,1160]},{id:'stayBed',x:370,z:405,r:92,label:'在旅店过夜（5 金币）',action:'innStay'},{id:'stairUp',x:710,z:472,r:90,label:'沿楼梯上二楼',action:'map',target:'innUpstairs',spawn:[400,430]},{id:'counter',x:625,z:220,r:60,label:'询问旅店消息',action:'innInfo'}],npcs:[{id:'innkeeper',name:'马琳',emoji:'🧙🏻‍♀️',x:625,z:210,r:54,lines:['炉火正旺，旅人。客人们正低声谈论禁林的狼影。']}]},
  innUpstairs:{name:'渡鸦旅店 · 二楼',size:[800,500],floor:'#4b3525',indoor:true,wallHeight:3.2,openNorth:true,obstacles:[...walls(800,500,'#3b2a1e').filter(w=>w.id!=='north')],interactables:[{id:'stairsDown',x:400,z:470,r:82,label:'沿楼梯下楼',action:'map',target:'inn',spawn:[710,510]},{id:'lookout',x:400,z:190,r:92,label:'眺望雾钟镇夜景',action:'lookout'},{id:'stayBedUp',x:370,z:370,r:82,label:'在二楼客房过夜（5 金币）',action:'innStay'}],npcs:[]},
@@ -861,7 +871,7 @@ maps.inn.obstacles.push(...INN_BEDS.map(bedObstacle));
 maps.innUpstairs.obstacles.push(...INN_UP_BEDS.map(bedObstacle));
 const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<760?1.4:1.75));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1;game.appendChild(renderer.domElement);
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.1,260);let world=null,player=null,playerAvatar=null,currentMapId='town',nearby=null,last=0,lastSave=0,transitioning=false,dialogReturn=null,cameraYaw=.1,cameraPitch=.38,mouseSensitivity=.0035,mouseLookActive=false,pointerLocked=false,firstPerson=false;
-const IS_MAC=(()=>{try{const p=(navigator.userAgentData&&navigator.userAgentData.platform)||navigator.platform||navigator.userAgent||'';return /Mac|iPhone|iPad|iPod/i.test(p)}catch(_){return false}})();const keys=new Set();let jumpVelocity=0,grounded=true,crouching=false,crouchAmount=0,introActive=false,introIndex=0,chatNpc=null,chatBusy=false,chatReplyTimer=null,sleepState=null,studyState=null,studyGroup=null,lookoutState=null,farmGroup=null,lastFarmVisual=0,lastFarmSave=0,auroraGroup=null,auroraActive=false,auroraStart=0,auroraEnd=0,auroraNext=0,auroraSprites=[],auroraStars=null,auroraLight=null;
+const IS_MAC=(()=>{try{const p=(navigator.userAgentData&&navigator.userAgentData.platform)||navigator.platform||navigator.userAgent||'';return /Mac|iPhone|iPad|iPod/i.test(p)}catch(_){return false}})();const keys=new Set();let jumpVelocity=0,grounded=true,crouching=false,crouchAmount=0,introActive=false,introIndex=0,chatNpc=null,chatBusy=false,chatReplyTimer=null,sleepState=null,studyState=null,studyGroup=null,lookoutState=null,farmGroup=null,lastFarmVisual=0,lastFarmSave=0,auroraGroup=null,auroraActive=false,auroraStart=0,auroraEnd=0,auroraNext=0,auroraSprites=[],auroraStars=null,auroraLight=null;let flightState=null,flightBroom=null;const FLIGHT_PRICE=20;
 
 const Music=(()=>{
  let ctx=null,master=null,dry=null,wet=null,verbIn=null,padFilter=null,drones=[],chordTimer=null,bellTimer=null,wind=null,started=false;
@@ -1289,7 +1299,7 @@ function updateRouteFX(now){
 function updateRouteHud(){
  const hud=document.getElementById('routeHud');if(!hud)return;
  const st=ensureStory();
- const show=!!routeTarget&&st.introDone&&!forestCombat&&!studyState&&!lookoutState;
+ const show=!!routeTarget&&st.introDone&&!forestCombat&&!studyState&&!lookoutState&&!flightState;
  hud.hidden=!show;if(!show)return;
  hud.classList.toggle('off',!routeEnabled);
  const compass=document.getElementById('routeCompass'),label=document.getElementById('routeLabel'),hint=document.getElementById('routeHint'),distEl=document.getElementById('routeDistance');
@@ -1377,6 +1387,15 @@ function buildTownExtras(){
  addPlaque('镇务委托',-3.5,1.54,-5.29,.92,.22);
  addPlaque('星月喷泉',0,.47,2.32,1.8,.3);
  addPlaque('守夜人',-6.5,.56,6.69,.86,.2);
+ // 风痕扫帚棚：飞行点
+ const broomStand=new THREE.Group();broomStand.position.set(6,0,-4.8);townRoot.add(broomStand);
+ const standWood=new THREE.MeshStandardMaterial({color:'#50351f',roughness:.86});
+ const platform=new THREE.Mesh(new THREE.BoxGeometry(2.5,.09,1.5),new THREE.MeshStandardMaterial({color:'#6b5536',roughness:.8}));platform.position.y=.05;platform.receiveShadow=true;broomStand.add(platform);
+ for(const x of [-1.05,1.05]){const post=new THREE.Mesh(new THREE.BoxGeometry(.1,1.75,.1),standWood);post.position.set(x,.92,-.58);post.castShadow=true;broomStand.add(post)}
+ const cross=new THREE.Mesh(new THREE.BoxGeometry(2.3,.09,.1),standWood);cross.position.set(0,1.72,-.58);cross.castShadow=true;broomStand.add(cross);
+ for(const [bx,tilt] of [[-.62,-.13],[.12,.08],[.72,-.05]]){const bg=new THREE.Group();bg.position.set(bx,.15,.08);bg.rotation.z=tilt;const stick=new THREE.Mesh(new THREE.CylinderGeometry(.025,.03,1.45,8),standWood);stick.position.y=.72;bg.add(stick);const brist=new THREE.Mesh(new THREE.ConeGeometry(.15,.38,8),new THREE.MeshStandardMaterial({color:'#b99a55',roughness:1}));brist.position.y=.12;brist.rotation.x=Math.PI;bg.add(brist);const tie=new THREE.Mesh(new THREE.TorusGeometry(.055,.012,6,12),new THREE.MeshStandardMaterial({color:'#c8a35a',metalness:.3,roughness:.5}));tie.rotation.x=Math.PI/2;tie.position.y=.3;bg.add(tie);broomStand.add(bg)}
+ addPlaque('风痕扫帚',6,1.9,-5.64,1.45,.3);
+ addTownLight(6,1.8,-4.65,'#9ed8e3',8,5.5);
  placeTownDoor('castle',0,-7.22,1.8,2.85);
  placeTownDoor('shop',-11.5,3.92,1.55,2.85);
  placeTownDoor('inn',10.5,2.17,1.45,2.85);
@@ -1683,31 +1702,34 @@ function ensureAurora(){
  if(auroraGroup)return;
  const g=new THREE.Group();g.visible=false;scene.add(g);auroraGroup=g;
  const defs=[
-  {c1:'rgba(86,255,180,ALPHA)',c2:'rgba(52,194,255,ALPHA)',x:7,y:6.2,z:1,sx:18,sy:6,base:.32,phase:.4},
-  {c1:'rgba(126,255,170,ALPHA)',c2:'rgba(148,110,255,ALPHA)',x:10.5,y:7.2,z:-1.5,sx:16,sy:5.5,base:.26,phase:2.1},
-  {c1:'rgba(88,220,255,ALPHA)',c2:'rgba(190,120,255,ALPHA)',x:5,y:8.1,z:-3,sx:14,sy:4.6,base:.2,phase:4.4}
+  {c1:'rgba(86,255,180,ALPHA)',c2:'rgba(52,194,255,ALPHA)',x:-10,y:14,z:-18,sx:26,sy:9,base:.32,phase:.4},
+  {c1:'rgba(126,255,170,ALPHA)',c2:'rgba(148,110,255,ALPHA)',x:0,y:16,z:-20,sx:24,sy:8,base:.26,phase:2.1},
+  {c1:'rgba(88,220,255,ALPHA)',c2:'rgba(190,120,255,ALPHA)',x:10,y:15,z:-17,sx:22,sy:7,base:.2,phase:4.4}
  ];
  auroraSprites=[];
  for(const d of defs){const tex=makeAuroraTexture(d.c1,d.c2);const m=new THREE.SpriteMaterial({map:tex,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending,fog:false});const s=new THREE.Sprite(m);s.position.set(d.x,d.y,d.z);s.scale.set(d.sx,d.sy,1);s.userData={...d,bx:d.x,by:d.y};g.add(s);auroraSprites.push(s)}
- const pos=[];for(let i=0;i<120;i++)pos.push(-2+Math.random()*22,5+Math.random()*11,-4+Math.random()*7);const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));const mat=new THREE.PointsMaterial({color:'#d9f4e7',size:.08,transparent:true,opacity:0,depthWrite:false,fog:false,blending:THREE.AdditiveBlending});auroraStars=new THREE.Points(geo,mat);g.add(auroraStars);
- auroraLight=new THREE.PointLight('#65e0a2',0,14,2);auroraLight.position.set(8,2.2,3);g.add(auroraLight);
+ const pos=[];for(let i=0;i<120;i++)pos.push(-24+Math.random()*48,10+Math.random()*12,-26+Math.random()*8);const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));const mat=new THREE.PointsMaterial({color:'#d9f4e7',size:.08,transparent:true,opacity:0,depthWrite:false,fog:false,blending:THREE.AdditiveBlending});auroraStars=new THREE.Points(geo,mat);g.add(auroraStars);
+ auroraLight=new THREE.PointLight('#65e0a2',0,18,2);auroraLight.position.set(0,3,-7);g.add(auroraLight);
 }
 function isAuroraNight(){return dayFactor<=.38||timeOfDay>=20||timeOfDay<4.8}
+function isAuroraMap(){return currentMapId==='town'&&!maps[currentMapId]?.indoor}
 function scheduleAurora(now,first=false){auroraNext=now+(first?10000+Math.random()*12000:65000+Math.random()*85000)}
 function startAurora(now){
- ensureAurora();if(auroraActive||currentMapId!=='forest'||!isAuroraNight())return;
+ ensureAurora();if(auroraActive||!isAuroraMap()||!isAuroraNight())return;
+ auroraGroup.position.set(camera.position.x,0,camera.position.z);auroraGroup.rotation.y=cameraYaw;
  auroraActive=true;auroraStart=now;auroraEnd=now+38000+Math.random()*22000;auroraGroup.visible=true;document.getElementById('auroraOverlay').classList.add('active');
  for(const s of auroraSprites){s.material.opacity=0}
- showStoryBanner('雾林异象','极光','图书馆方向的树梢上，绿色的光带缓缓展开。',5600);
- showWhisper('树梢上亮起了不属于森林的光……',5200);
+ showStoryBanner('雾钟镇异象','极光','夜空被绿色与紫色的光带缓缓照亮。',5600);
+ showWhisper('雾钟镇上空亮起了不属于这座小镇的光……',5200);
 }
 function stopAurora(now){
  if(!auroraActive)return;auroraActive=false;if(auroraGroup)auroraGroup.visible=false;if(auroraLight)auroraLight.intensity=0;const ov=document.getElementById('auroraOverlay');if(ov)ov.classList.remove('active');scheduleAurora(now||performance.now());
 }
 function updateAurora(now){
- if(currentMapId!=='forest'||!isAuroraNight()){if(auroraActive)stopAurora(now);return}
+ if(!isAuroraMap()||!isAuroraNight()){if(auroraActive)stopAurora(now);return}
  ensureAurora();
  if(!auroraActive){if(!auroraNext)scheduleAurora(now,true);if(now>=auroraNext)startAurora(now);return}
+ auroraGroup.position.set(camera.position.x,0,camera.position.z);auroraGroup.rotation.y=cameraYaw;
  const total=Math.max(1,auroraEnd-auroraStart),p=Math.min(1,(now-auroraStart)/total),fade=Math.min(1,p*6,(1-p)*5);
  for(let i=0;i<auroraSprites.length;i++){const s=auroraSprites[i],u=s.userData;s.material.opacity=u.base*fade*(.75+.25*Math.sin(now*.0012+u.phase));s.position.x=u.bx+Math.sin(now*.00022+u.phase)*.8;s.position.y=u.by+Math.sin(now*.00016+u.phase*2)*.22;s.scale.y=u.sy*(1+Math.sin(now*.0006+i)*.025)}
  if(auroraStars)auroraStars.material.opacity=.85*fade;
@@ -1897,9 +1919,9 @@ function renderMiniMap(){
  ctx.beginPath();ctx.fillStyle='#fff1b7';ctx.strokeStyle='#20261f';ctx.lineWidth=2;ctx.arc(px,pz,large?5:4,0,Math.PI*2);ctx.fill();ctx.stroke();
  ctx.restore();
  document.getElementById('minimapTitle').textContent=data.name;
- const note=document.getElementById('minimapNote');if(note)note.textContent=large?'建筑名称与位置已标注 · M 收起':'地图圆点标出地点 · 地图随旅人移动';
+ const note=document.getElementById('minimapNote');if(note)note.textContent=large?'建筑名称与位置已标注 · 点击收起':'地图圆点标出地点 · 点击放大';
 }
-function toggleMiniMap(force){if(document.pointerLockElement)document.exitPointerLock();const large=typeof force==='boolean'?force:!miniMap.classList.contains('large');miniMap.classList.toggle('large',large);renderMiniMap()}
+function toggleMiniMap(force){if(document.pointerLockElement)document.exitPointerLock();const large=typeof force==='boolean'?force:!miniMap.classList.contains('large');miniMap.hidden=false;miniMap.classList.toggle('large',large);renderMiniMap()}
 function updateNearby(){
  const data=maps[currentMapId],p=player.position,candidates=[];
  for(const item of data.interactables){
@@ -2907,10 +2929,66 @@ function sendChat(text){
  },650+Math.random()*350);
 }
 
-function doInteract(){if(!nearby||doorBusy||forestCombat||studyState||lookoutState)return;const a=nearby;
+function openBroomDialog(){
+ if(currentMapId!=='town'||flightState)return;
+ showDialog('风痕扫帚棚',`<p>棚下挂着三把旧扫帚，帚柄被手掌磨得发亮。看棚的学徒把一枚风痕铜牌推到你面前。</p><p>“二十金币，租一把能飞的扫帚。别撞钟楼，也别往禁林里飞。”</p><p style="color:#bda66f">你有 ${state.player.gold} 金币。</p><p><button class="button" data-broom-rent="1">花 ${FLIGHT_PRICE} 金币骑上扫帚</button></p>`);
+}
+function makeFlightBroom(){
+ const g=new THREE.Group();
+ const wood=new THREE.MeshStandardMaterial({color:'#9b6435',roughness:.62});
+ const straw=new THREE.MeshStandardMaterial({color:'#c4a35c',roughness:1});
+ const handle=new THREE.Mesh(new THREE.CylinderGeometry(.05,.06,2.15,8),wood);handle.rotation.x=Math.PI/2;handle.position.set(0,.02,.28);g.add(handle);
+ const bristles=new THREE.Mesh(new THREE.ConeGeometry(.24,.68,10),straw);bristles.rotation.x=-Math.PI/2;bristles.position.set(0,.02,-1.06);g.add(bristles);
+ for(let i=0;i<7;i++){const a=i/7*Math.PI*2;const strand=new THREE.Mesh(new THREE.ConeGeometry(.028,.55,5),straw);strand.rotation.x=-Math.PI/2;strand.position.set(Math.cos(a)*.09,.02+Math.sin(a)*.09,-1.14);g.add(strand)}
+ const tie=new THREE.Mesh(new THREE.TorusGeometry(.075,.017,6,12),new THREE.MeshStandardMaterial({color:'#d4ad61',metalness:.35,roughness:.45}));tie.rotation.x=Math.PI/2;tie.position.set(0,.02,-.76);g.add(tie);
+ g.position.set(.12,.06,0);g.rotation.y=1.02;g.rotation.z=0;return g;
+}
+function beginBroomFlight(){
+ if(flightState||forestCombat||studyState||lookoutState||sleepState||currentMapId!=='town')return;
+ if(state.player.gold<FLIGHT_PRICE){toast(`金币不足 · 租扫帚需要 ${FLIGHT_PRICE} 金币`);return}
+ closeModals();state.player.gold-=FLIGHT_PRICE;save();updateHud();
+ if(firstPerson){firstPerson=false;player.visible=true;}
+ flightState={started:performance.now(),launch:[player.position.x,player.position.z]};
+ flightBroom=makeFlightBroom();player.add(flightBroom);
+ player.position.y=3;player.rotation.y=Math.PI;jumpVelocity=0;grounded=false;cameraPitch=.28;cameraYaw=0;
+ if(playerAvatar){playerAvatar.rotation.x=.12;playerAvatar.rotation.z=0;playerAvatar.position.y=0}
+ const hud=document.getElementById('flightHud');if(hud)hud.hidden=false;updateFlightHud();
+ nearby=null;hint.style.display='none';touchInteract.hidden=true;routeHud.hidden=true;
+ nearby=null;hint.style.display='none';touchInteract.hidden=true;followCamera();showWhisper('风从帚尾掠过，雾钟镇在脚下慢慢变小……',4200);toast('租下扫帚 · 已进入飞行');
+}
+function endBroomFlight(silent=false){
+ if(!flightState)return;
+ const flight=flightState;flightState=null;
+ if(flightBroom){player.remove(flightBroom);flightBroom.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){const ms=Array.isArray(o.material)?o.material:[o.material];for(const m of ms)m.dispose()}});flightBroom=null}
+ player.position.y=0;jumpVelocity=0;grounded=true;
+ if(collision(player.position.x,player.position.z)&&flight.launch){player.position.x=flight.launch[0];player.position.z=flight.launch[1]}
+ if(playerAvatar){playerAvatar.rotation.x=0;playerAvatar.rotation.z=0;playerAvatar.position.y=0;playerAvatar.scale.y=playerAvatar.userData.baseScale||1.04}
+ crouching=false;crouchAmount=0;
+ const hud=document.getElementById('flightHud');if(hud)hud.hidden=true;
+ followCamera();updateNearby();updateRouteHud();save();if(!silent)toast('扫帚缓缓落地 · 已降落');
+}
+function updateFlightHud(){
+ const el=document.getElementById('flightAlt');if(el&&flightState)el.textContent=`高度 ${Math.max(0,player.position.y).toFixed(1)} m`;
+}
+function updateFlight(dt,now){
+ if(!flightState||!player)return;
+ const localX=(keys.has('d')?1:0)-(keys.has('a')?1:0),localZ=(keys.has('s')?1:0)-(keys.has('w')?1:0);
+ const zx=localX*Math.cos(cameraYaw)+localZ*Math.sin(cameraYaw),zz=-localX*Math.sin(cameraYaw)+localZ*Math.cos(cameraYaw);
+ const data=maps.town,maxX=data.size[0]*S-1.2,maxZ=data.size[1]*S-1.2,speed=6.4*(keys.has('shift')?1.55:1);
+ const nx=Math.max(1.2,Math.min(maxX,player.position.x+zx*speed*dt)),nz=Math.max(1.2,Math.min(maxZ,player.position.z+zz*speed*dt));
+ let ny=player.position.y;if(keys.has(' '))ny+=3.4*dt;if(crouching)ny-=3.4*dt;ny=Math.max(1.2,Math.min(16,ny));
+ player.position.set(nx,ny,nz);
+ if(zx||zz)player.rotation.y=Math.atan2(zx,zz);
+ const bob=Math.sin(now*.004)*.04;
+ if(playerAvatar){playerAvatar.position.y=bob;playerAvatar.rotation.x=.12;playerAvatar.rotation.z=-localX*.12}
+ if(flightBroom){flightBroom.position.y=.06+bob;flightBroom.rotation.z=-localX*.16}
+ updateFlightHud();
+}
+function doInteract(){if(flightState||!nearby||doorBusy||forestCombat||studyState||lookoutState)return;const a=nearby;
  if(a.action==='elite'){const st=ensureStory();if(st.chapter<2){showDialog('雾中的低语','<p>雾里没有回应。你还没有把钟声、黑塔和昨夜的影子拼在一起。</p>');return}if(st.elites[a.elite]){showDialog(ELITES[a.elite].name,'<p>这名精英已经被击败。她的位置只剩一圈冷却的符文。</p>');return}startEliteCombat(a.elite);return}
  if(a.action==='tower'){const st=ensureStory();if(storyEliteCount()<4){showDialog('黑塔之门','<p>黑塔的门仍然紧闭。四名精英还活着，门上的符文没有全部熄灭。</p><p style="color:#bda66f">已击败 ${storyEliteCount()}/4</p>');return}if(!st.legendary){showDialog('林地守望者','<p>“四名精英都倒下了。黑塔的门已经开启，但在你进去之前，选一件森林能给你的东西。”</p><p style="color:#bda66f">委托板上的预备委托会削弱凯勒；没有完成也能进塔，但会难得多。</p><p><button class="button" data-legendary="attack">攻击 · 黑塔余烬法杖</button></p><p><button class="button" data-legendary="defense">防御 · 守夜人的最后壁垒</button></p><p><button class="button" data-legendary="heal">治疗 · 月泉之泪</button></p>');return}switchMap('blackTower',[400,600]);return}
  if(a.action==='boss'){const st=ensureStory();if(st.bossDefeated){showDialog('黑塔','<p>灵魂祭坛已经冷却。凯勒·斯威尼不在这里了。</p>');return}openBossIntro();return}
+ if(a.action==='broom'){openBroomDialog();return}
  if(a.action==='quest'){handleQuestPoint(a);return}
  if(a.action==='farm'){openFarmPlot(a.plot);return}
  if(a.action==='lookout'){beginLookout();return}
@@ -2989,6 +3067,7 @@ function resumeJourney(){
  enterWorld(mapId,spawn,false);
 }
 function showEntryScreen(){
+ if(flightState)endBroomFlight(true);
  if(forestCombat)finishForestCombat('leave');
  save();keys.clear();toggleMiniMap(false);miniMap.hidden=true;touchInteract.hidden=true;closeModals();resetOnboardingUI();
  if(window.__mistbellMarkSaved)window.__mistbellMarkSaved(state.player);
@@ -3000,7 +3079,7 @@ function tryJump(){
  jumpVelocity=4.15;grounded=false;player.position.y=Math.max(player.position.y,.02)
 }
 function updateJump(dt){
- if(!player)return;
+ if(!player||flightState)return;
  if(!grounded||player.position.y>0){
   jumpVelocity-=13.2*dt;player.position.y+=jumpVelocity*dt;
   if(player.position.y<=0){player.position.y=0;jumpVelocity=0;grounded=true}
@@ -3008,18 +3087,19 @@ function updateJump(dt){
  crouchAmount+=((crouching?1:0)-crouchAmount)*Math.min(1,dt*9);
  if(playerAvatar)playerAvatar.scale.y=(playerAvatar.userData.baseScale||1.04)*(1-.26*crouchAmount)
 }
-function setKey(e,on){if(on&&e.repeat)return;if(on&&e.key.toLowerCase()==='escape'&&document.pointerLockElement){e.preventDefault();return}if(lookoutState){if(on&&e.key.toLowerCase()==='escape'){e.preventDefault();endLookout()}return}if(studyState){if(on&&e.key.toLowerCase()==='escape'){e.preventDefault();finishLibraryStudy()}return}const tag=e.target&&e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||(e.target&&e.target.isContentEditable))return;if(introActive||sleepState)return;const raw=e.key.toLowerCase(),key=raw.replace('arrowup','w').replace('arrowdown','s').replace('arrowleft','a').replace('arrowright','d');if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright',' '].includes(raw))e.preventDefault();if(raw==='control'){crouching=on;return}if(on)keys.add(key);else keys.delete(key);if(on&&raw===' '&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))tryJump();if(on&&raw==='v'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleView();if(on&&raw==='e'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))doInteract();if(on&&raw==='m'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleMiniMap();if(on&&raw==='r'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))cycleEmote();if(on&&raw==='g'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleRoute();if(on&&raw==='t'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleDayNight();if(on&&raw==='f'&&forestCombat&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))castForestSpell();if(on&&raw==='h'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))useHealingPotion();if(on&&raw==='j'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))useManaPotion();if(on&&raw==='escape'){if(forestCombat){fleeForestCombat();return}if(miniMap.classList.contains('large'))toggleMiniMap(false);else if(document.querySelector('.overlay.open'))closeModals();else if(document.getElementById('menu').hidden)showEntryScreen()}}
+function setKey(e,on){if(on&&e.repeat)return;if(on&&flightState&&e.key.toLowerCase()==='e'){endBroomFlight();return}if(on&&flightState&&e.key.toLowerCase()==='escape'){endBroomFlight();return}if(on&&e.key.toLowerCase()==='escape'&&document.pointerLockElement){e.preventDefault();return}if(lookoutState){if(on&&e.key.toLowerCase()==='escape'){e.preventDefault();endLookout()}return}if(studyState){if(on&&e.key.toLowerCase()==='escape'){e.preventDefault();finishLibraryStudy()}return}const tag=e.target&&e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||(e.target&&e.target.isContentEditable))return;if(introActive||sleepState)return;const raw=e.key.toLowerCase(),key=raw.replace('arrowup','w').replace('arrowdown','s').replace('arrowleft','a').replace('arrowright','d');if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright',' '].includes(raw))e.preventDefault();if(raw==='control'){crouching=on;return}if(on)keys.add(key);else keys.delete(key);if(on&&raw===' '&&!flightState&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))tryJump();if(on&&raw==='v'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleView();if(on&&raw==='e'&&!flightState&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))doInteract();if(on&&raw==='m'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleMiniMap();if(on&&raw==='r'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))cycleEmote();if(on&&raw==='g'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleRoute();if(on&&raw==='t'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleDayNight();if(on&&raw==='f'&&forestCombat&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))castForestSpell();if(on&&raw==='h'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))useHealingPotion();if(on&&raw==='j'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))useManaPotion();if(on&&raw==='escape'){if(forestCombat){fleeForestCombat();return}if(miniMap.classList.contains('large'))toggleMiniMap(false);else if(document.querySelector('.overlay.open'))closeModals();else if(document.getElementById('menu').hidden)showEntryScreen()}}
 function tick(now){
  requestAnimationFrame(tick);
  const dt=Math.min((now-last)/1000||0,.04);last=now;
  updateTimeOfDay(dt);
- if(player&&!sleepState){updateJump(dt)}
+ if(flightState)updateFlight(dt,now);
+ if(player&&!sleepState&&!flightState){updateJump(dt)}
  if(sleepState)updateSleep(now);
  if(studyState)updateLibraryStudy(now);
  if(lookoutState)updateLookout(now);
  updateFarm(dt,now);updateAurora(now);Music.updateAmbience();
  if(forestCombat)updateForestCombat(dt,now);
- if(player&&document.getElementById('menu').hidden&&!transitioning&&!introActive&&!sleepState&&!studyState&&!lookoutState&&!document.querySelector('.overlay.open')){
+ if(player&&document.getElementById('menu').hidden&&!transitioning&&!introActive&&!sleepState&&!studyState&&!lookoutState&&!flightState&&!document.querySelector('.overlay.open')){
   let localX=(keys.has('d')?1:0)-(keys.has('a')?1:0),localZ=(keys.has('s')?1:0)-(keys.has('w')?1:0);if(localX&&localZ){localX*=.707;localZ*=.707}
   const x=localX*Math.cos(cameraYaw)+localZ*Math.sin(cameraYaw),z=-localX*Math.sin(cameraYaw)+localZ*Math.cos(cameraYaw),speed=2.7*(keys.has('shift')?1.8:1)*(crouching?.45:1),nx=player.position.x+x*speed*dt,nz=player.position.z+z*speed*dt;
   if(!collision(nx,player.position.z))player.position.x=nx;if(!collision(player.position.x,nz))player.position.z=nz;if(x||z)player.rotation.y=Math.atan2(x,z);
@@ -3027,7 +3107,7 @@ function tick(now){
  }
  if(currentMapId==='inn'&&player&&!transitioning&&!sleepState&&!introActive&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open')&&player.position.x>13.3&&player.position.x<14.9&&player.position.z>5.8&&player.position.z<10.0&&!studyState&&!lookoutState)switchMap('innUpstairs',[400,430]);
  if(player&&document.getElementById('menu').hidden&&!transitioning&&!studyState&&!lookoutState&&!document.querySelector('.overlay.open'))followCamera();
- if(playerAvatar&&!sleepState&&!studyState)playerAvatar.position.y=Math.sin(now*.0024)*.016;
+ if(playerAvatar&&!sleepState&&!studyState&&!flightState)playerAvatar.position.y=Math.sin(now*.0024)*.016;
  updateEmote(now);
  for(const a of npcAvatars){
   a.position.y=Math.sin(now*.002+(a.userData.phase||0))*.012;
@@ -3045,8 +3125,6 @@ function tick(now){
 }
 document.addEventListener('keydown',e=>setKey(e,true));document.addEventListener('keyup',e=>setKey(e,false));window.addEventListener('blur',()=>{keys.clear();mouseLookActive=false;crouching=false});renderer.domElement.style.cursor='grab';
 let pointerHintShown=false;
-const lookHelp=document.getElementById('lookHelp');
-if(lookHelp){lookHelp.textContent=IS_MAC?'三指拖动（或按住拖动）环视':'点击画面锁定鼠标后移动鼠标环视';}
 let macLookSource=null,lastLookX=null,lastLookY=null;
 function lookAllowed(){
  if(!document.getElementById('menu').hidden)return false;
@@ -3115,10 +3193,11 @@ Music.updateUI();
 let musicGesture=false;function startMusicGesture(){if(musicGesture)return;musicGesture=true;Music.start()}
 document.addEventListener('pointerdown',startMusicGesture,{capture:true,once:true});
 document.addEventListener('keydown',startMusicGesture,{capture:true,once:true});
-document.getElementById('profileButton').onclick=openProfile;document.getElementById('timeButton').onclick=toggleDayNight;const routeHudEl=document.getElementById('routeHud');if(routeHudEl){routeHudEl.onclick=()=>toggleRoute();routeHudEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleRoute()}}}const sideQuestHudEl=document.getElementById('sideQuestHud');if(sideQuestHudEl){sideQuestHudEl.onclick=()=>{renderQuests();openModal('questModal');};sideQuestHudEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();renderQuests();openModal('questModal')}}}document.getElementById('lookoutReturn').onclick=endLookout;document.getElementById('combatCast').onclick=castForestSpell;document.getElementById('combatFlee').onclick=fleeForestCombat;document.getElementById('returnHome').onclick=showEntryScreen;document.getElementById('saveProfile').onclick=saveProfile;document.getElementById('avatarGrid').addEventListener('click',e=>{const b=e.target.closest('[data-avatar]');if(b)profileAvatar(b.dataset.avatar)});document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
+document.getElementById('profileButton').onclick=openProfile;document.getElementById('timeButton').onclick=toggleDayNight;const routeHudEl=document.getElementById('routeHud');if(routeHudEl){routeHudEl.onclick=()=>toggleRoute();routeHudEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleRoute()}}}const sideQuestHudEl=document.getElementById('sideQuestHud');if(sideQuestHudEl){sideQuestHudEl.onclick=()=>{renderQuests();openModal('questModal');};sideQuestHudEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();renderQuests();openModal('questModal')}}}const flightLandBtn=document.getElementById('flightLand');if(flightLandBtn)flightLandBtn.onclick=()=>endBroomFlight();document.getElementById('lookoutReturn').onclick=endLookout;document.getElementById('combatCast').onclick=castForestSpell;document.getElementById('combatFlee').onclick=fleeForestCombat;document.getElementById('returnHome').onclick=showEntryScreen;document.getElementById('saveProfile').onclick=saveProfile;document.getElementById('avatarGrid').addEventListener('click',e=>{const b=e.target.closest('[data-avatar]');if(b)profileAvatar(b.dataset.avatar)});document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
 document.getElementById('shopItems').addEventListener('click',e=>{const b=e.target.closest('[data-buy]');if(b)buy(b.dataset.buy)});document.getElementById('questItems').addEventListener('click',e=>{const a=e.target.closest('[data-quest]'),c=e.target.closest('[data-complete]');if(a)task(a.dataset.quest);if(c)task(c.dataset.complete,true)});document.getElementById('dialogBody').addEventListener('click',e=>{
  const rescue=e.target.closest('[data-rescue]');if(rescue){closeModals();switchMap('town',TOWN_SPAWN);return}
  const legendary=e.target.closest('[data-legendary]');if(legendary){chooseLegendary(legendary.dataset.legendary);return}
+ const broomRent=e.target.closest('[data-broom-rent]');if(broomRent){beginBroomFlight();return}
  const bossStart=e.target.closest('[data-boss-start]');if(bossStart){closeModals();startBossCombat();return}
  const towerEnter=e.target.closest('[data-tower-enter]');if(towerEnter){closeModals();switchMap('blackTower',[400,600]);return}
  const endReturn=e.target.closest('[data-end-return]');if(endReturn){closeModals();switchMap('town',TOWN_SPAWN);return}
