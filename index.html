@@ -189,6 +189,17 @@ body.lookingout .mobile-pad,body.lookingout .touch-interact,body.lookingout .hin
 .route-hud.off .route-label{color:#a7ad9d}
 .route-hud.off .route-distance{color:#7f8778}
 @media(max-width:700px){.route-hud{max-width:178px;padding:5px 6px;gap:5px}.route-hud .route-compass{width:18px;font-size:16px}.route-hud .route-label{font-size:9px}.route-hud .route-hint{font-size:8px}.route-hud .route-distance{font-size:9px}}
+.side-quest-hud{max-width:270px;margin-top:5px;padding-top:5px;border-top:1px solid #c8b67844;pointer-events:auto;cursor:pointer}
+.side-quest-hud[hidden]{display:none}
+.side-quest-head{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#d8c48f;font-size:9px;letter-spacing:1px}
+.side-quest-head em{color:#9faa95;font:9px Georgia,serif;letter-spacing:0}
+.side-quest-list{display:flex;flex-direction:column;gap:4px;max-height:128px;margin-top:4px;overflow:auto;scrollbar-width:none}
+.side-quest-list::-webkit-scrollbar{display:none}
+.side-quest-item{display:flex;flex-direction:column;gap:1px;padding:4px 6px;border-left:2px solid #8d8a6a;background:#0c1511aa;border-radius:2px}
+.side-quest-item strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#e8dcb8;font-size:9px;font-weight:500;letter-spacing:.2px}
+.side-quest-item small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9fa992;font-size:8px}
+.side-quest-item.ready{border-left-color:#e7c980;background:#2b2618aa}.side-quest-item.ready strong{color:#f4df9a}.side-quest-item.ready small{color:#cdb977}
+@media(max-width:700px){.side-quest-hud{max-width:178px}.side-quest-list{max-height:104px}.side-quest-item strong{font-size:8px}.side-quest-item small{font-size:7px}}
 .story-banner{position:fixed;top:18%;left:50%;z-index:9;display:flex;flex-direction:column;align-items:center;gap:5px;transform:translate(-50%,-8px);opacity:0;pointer-events:none;text-align:center;transition:opacity .5s ease,transform .5s ease;text-shadow:0 3px 18px #000}
 .story-banner.show{opacity:1;transform:translate(-50%,0)}
 .story-banner small{color:#b7a36e;font-size:10px;letter-spacing:4px}
@@ -350,7 +361,7 @@ body.lookingout .mobile-pad,body.lookingout .touch-interact,body.lookingout .hin
 <script src="vendor/three-gltf.min.js" onerror="window.__mistbellThreeLoadFailed=true"></script></head><body>
 <div id="game"></div><div class="vignette" aria-hidden="true"></div><div id="locationTitle" class="location-title" aria-live="polite"></div><div id="balconyMist" class="balcony-mist" aria-hidden="true"></div>
 <div id="forestOverlay" class="forest-overlay" aria-hidden="true"><i></i><i></i><i></i></div><div id="auroraOverlay" class="aurora-overlay" aria-hidden="true"></div><div id="forestWhisper" class="forest-whisper" aria-live="polite"></div><div id="fade" class="fade"></div>
-<div class="hud"><div class="topbar"><div class="card"><span class="title">雾钟镇</span><small id="mapName" class="map-name">雾钟镇</small><small id="playerLabel" class="player-name">🧙🏻‍♀️ 新旅人</small><small id="storyObjective" class="story-objective" hidden></small><div id="routeHud" class="route-hud" hidden role="button" tabindex="0" aria-label="任务路线指引，点击或按 R 切换"><span id="routeCompass" class="route-compass">↑</span><div class="route-copy"><strong id="routeLabel" class="route-label">当前指引</strong><small id="routeHint" class="route-hint"></small></div><em id="routeDistance" class="route-distance"></em></div></div><div id="resourceCard" class="card resource-card"><span>金币 <strong id="hudGold">120</strong></span><span>体力 <strong id="hudHp">100</strong></span><span>魔力 <strong id="hudMp">30</strong></span><span>魔咒 <strong id="hudSpells">星火咒</strong></span></div><button id="profileButton" class="card button" style="pointer-events:auto">旅人档案</button><button id="timeButton" class="card button time-button" style="pointer-events:auto" aria-label="切换昼夜">☾ 18:30</button><div id="toast" class="card toast"></div></div><div class="card help">W A S D 移动 · Shift 奔跑 · 空格跳跃 · Ctrl 蹲下 · V 视角 · T 昼夜<br>靠近建筑按 E 进入 · F 林中施法 · H 使用药剂 · <span id="lookHelp">点击画面锁定鼠标后移动鼠标环视</span> · M 地图 · R 指引</div><button id="returnHome" class="card return-home">返回启程界面</button><div id="minimap" class="minimap" role="button" tabindex="0" aria-label="小地图，点击或按 M 放大" hidden><div class="minimap-head"><span id="minimapTitle">雾钟镇</span><kbd>M</kbd></div><canvas id="miniMapCanvas" width="448" height="288"></canvas><small id="minimapNote" class="minimap-note">地图圆点标出地点 · 地图随旅人移动</small></div><div id="hint" class="card hint"><kbd>E</kbd> <span id="hintText"></span></div><div class="mobile-pad"><button data-dir="up">▲</button><button data-dir="left">◀</button><button data-dir="down">▼</button><button data-dir="right">▶</button></div><button id="touchInteract" class="touch-interact" type="button" aria-label="互动" hidden>E</button></div>
+<div class="hud"><div class="topbar"><div class="card"><span class="title">雾钟镇</span><small id="mapName" class="map-name">雾钟镇</small><small id="playerLabel" class="player-name">🧙🏻‍♀️ 新旅人</small><small id="storyObjective" class="story-objective" hidden></small><div id="routeHud" class="route-hud" hidden role="button" tabindex="0" aria-label="任务路线指引，点击或按 G 切换"><span id="routeCompass" class="route-compass">↑</span><div class="route-copy"><strong id="routeLabel" class="route-label">当前指引</strong><small id="routeHint" class="route-hint"></small></div><em id="routeDistance" class="route-distance"></em></div><div id="sideQuestHud" class="side-quest-hud" hidden role="button" tabindex="0" aria-label="进行中的委托"><div class="side-quest-head"><span>进行中的委托</span><em id="sideQuestCount"></em></div><div id="sideQuestList" class="side-quest-list"></div></div></div><div id="resourceCard" class="card resource-card"><span>金币 <strong id="hudGold">120</strong></span><span>体力 <strong id="hudHp">100</strong></span><span>魔力 <strong id="hudMp">30</strong></span><span>魔咒 <strong id="hudSpells">星火咒</strong></span></div><button id="profileButton" class="card button" style="pointer-events:auto">旅人档案</button><button id="timeButton" class="card button time-button" style="pointer-events:auto" aria-label="切换昼夜">☾ 18:30</button><div id="toast" class="card toast"></div></div><div class="card help">W A S D 移动 · Shift 奔跑 · 空格跳跃 · Ctrl 蹲下 · V 视角 · T 昼夜<br>靠近建筑按 E 进入 · F 林中施法 · H 治疗药剂 · J 魔力药剂 · <span id="lookHelp">点击画面锁定鼠标后移动鼠标环视</span> · M 地图 · R 表情 · G 指引</div><button id="returnHome" class="card return-home">返回启程界面</button><div id="minimap" class="minimap" role="button" tabindex="0" aria-label="小地图，点击或按 M 放大" hidden><div class="minimap-head"><span id="minimapTitle">雾钟镇</span><kbd>M</kbd></div><canvas id="miniMapCanvas" width="448" height="288"></canvas><small id="minimapNote" class="minimap-note">地图圆点标出地点 · 地图随旅人移动</small></div><div id="hint" class="card hint"><kbd>E</kbd> <span id="hintText"></span></div><div class="mobile-pad"><button data-dir="up">▲</button><button data-dir="left">◀</button><button data-dir="down">▼</button><button data-dir="right">▶</button></div><button id="touchInteract" class="touch-interact" type="button" aria-label="互动" hidden>E</button></div>
 <button id="musicButton" class="music-control" type="button" aria-label="背景音乐"><span>♪</span><small id="musicButtonLabel">音乐</small></button>
 <div id="combatHud" class="combat-hud" hidden>
  <div class="combat-head"><span id="combatTitle">禁秘森林 · 暗影来袭</span><span id="combatWave">第一波</span></div>
@@ -469,9 +480,9 @@ body.lookingout .mobile-pad,body.lookingout .touch-interact,body.lookingout .hin
  <div class="panel-head"><div><small class="guide-kicker">BEFORE THE BELL · 启程前</small><h2>雾钟镇游戏指南</h2></div><button class="close" id="guideClose" type="button">×</button></div>
  <p class="guide-lead">钟声将熄。你将以一名新巫师的身份进入雾钟镇，调查凯勒·斯威尼与禁秘森林里的黑塔。</p>
  <div class="guide-grid">
-  <section class="guide-section"><h3>基本操作</h3><div class="guide-keys"><span><kbd>W A S D</kbd>移动</span><span><kbd>Shift</kbd>奔跑</span><span><kbd>空格</kbd>跳跃</span><span><kbd>Ctrl</kbd>蹲下</span><span><kbd>E</kbd>互动 / 进出建筑</span><span><kbd>F</kbd>战斗施法</span><span><kbd>M</kbd>地图</span><span><kbd>T</kbd>昼夜</span><span><kbd>V</kbd>第一 / 第三人称</span></div></section>
+  <section class="guide-section"><h3>基本操作</h3><div class="guide-keys"><span><kbd>W A S D</kbd>移动</span><span><kbd>Shift</kbd>奔跑</span><span><kbd>空格</kbd>跳跃</span><span><kbd>Ctrl</kbd>蹲下</span><span><kbd>E</kbd>互动 / 进出建筑</span><span><kbd>F</kbd>战斗施法</span><span><kbd>H</kbd>治疗用品</span><span><kbd>J</kbd>魔力药剂</span><span><kbd>M</kbd>地图</span><span><kbd>T</kbd>昼夜</span><span><kbd>V</kbd>第一 / 第三人称</span><span><kbd>R</kbd>更换表情（5 秒）</span><span><kbd>G</kbd>路线指引</span></div></section>
   <section class="guide-section"><h3>成长与资源</h3><p>创建时选择的出身与魔杖会影响初始金币、声望与战斗倾向；击败敌人和完成委托会获得经验、金币与声望。升级会提高生命与魔力上限；声望会影响 NPC 的态度与可接委托。</p><p>生命归零会被送回镇中心并损失部分金币；在旅店睡觉、喝泉水或使用草药可以恢复。</p></section>
-  <section class="guide-section"><h3>主线路线</h3><p>先向马琳、艾德蒙·鸦影和守夜人打听钟声的异样，再进入禁秘森林。森林四角各有一名凯勒的精英手下，击败四人后，黑塔的道路才会开启。画面左上的路线指引会标出下一站，按 R 可隐藏或恢复。右下角的 ♪ 可以开关背景音乐，音量在旅人档案里调整。</p></section>
+  <section class="guide-section"><h3>主线路线</h3><p>先向马琳、艾德蒙·鸦影和守夜人打听钟声的异样，再进入禁秘森林。森林四角各有一名凯勒的精英手下，击败四人后，黑塔的道路才会开启。画面左上的路线指引会标出下一站，按 G 可隐藏或恢复。右下角的 ♪ 可以开关背景音乐，音量在旅人档案里调整。进塔前可在镇务委托板接下五条预备支线，它们会削弱凯勒的灵魂护盾；终极战还有残影、暗影裂隙和狂暴阶段。</p></section>
   <section class="guide-section"><h3>城镇设施</h3><p>星尘商店出售药剂与装备；镇务委托板可以接取任务；鸦影古堡能研读古籍，静坐会让游戏时间流逝；星月喷泉日夜恢复不同；渡鸦旅店可以休息并上二楼看夜景；草药温室可以购买种子、播种、浇水和施肥，成熟后收获；禁秘森林在夜晚偶尔会出现极光。</p></section>
   <section class="guide-section"><h3>对话与档案</h3><p>靠近 NPC 按 E 后可以直接输入文字交谈，关键话题会推进主线。游戏会自动保存；启程页的「旧日档案」可以查看、读取或封存旧进度。</p></section>
  </div>
@@ -485,7 +496,7 @@ body.lookingout .mobile-pad,body.lookingout .touch-interact,body.lookingout .hin
 </section></div>
 <div id="dialogModal" class="overlay"><section class="panel"><div class="panel-head"><h2 id="dialogTitle">雾钟镇</h2><button class="close" data-close>×</button></div><div id="dialogBody"></div></section></div>
 <div id="shopModal" class="overlay"><section class="panel"><div class="panel-head"><h2>✦ 星尘商店</h2><button class="close" data-close>×</button></div><p>「欢迎，年轻的旅人。药剂、护符和森林里带出来的东西，我这儿都有。」奥利凡·星尘把一枚镜片擦了擦。</p><div>金币：<strong id="shopGold">0</strong></div><div id="shopItems"></div></section></div>
-<div id="questModal" class="overlay"><section class="panel quest-panel"><div class="panel-head"><h2>📜 镇务委托板 · 赫敏娜·铁笔</h2><button class="close" data-close>×</button></div><p class="quest-intro">羊皮纸被夜露浸软，墨迹仍像刚写上去一样清晰。向下滚动簿册，挑选今晚要接下的委托。</p><div class="quest-toolbar"><span id="questCount" aria-live="polite">12 项委托 · 0 项进行中</span><span class="quest-wheel">↕ 滚轮翻阅</span></div><div id="questItems" class="quest-scroll" tabindex="0" aria-label="镇务委托列表"></div><div class="quest-foot"><span>接取后可回来完成并领取奖励</span><span id="questScrollHint" class="quest-scroll-hint">滚轮向下翻阅</span></div></section></div>
+<div id="questModal" class="overlay"><section class="panel quest-panel"><div class="panel-head"><h2>📜 镇务委托板 · 守夜人的预备委托</h2><button class="close" data-close>×</button></div><p class="quest-intro">羊皮纸被夜露浸软。守夜人把五张旧委托钉在板角：它们不是普通的跑腿活，而是进黑塔前削弱凯勒的最后机会。</p><div class="quest-toolbar"><span id="questCount" aria-live="polite">12 项委托 · 0 项进行中</span><span class="quest-wheel">↕ 滚轮翻阅</span></div><div id="questItems" class="quest-scroll" tabindex="0" aria-label="镇务委托列表"></div><div class="quest-foot"><span>完成目标后回板领取守夜人的祝福</span><span id="questScrollHint" class="quest-scroll-hint">滚轮向下翻阅</span></div></section></div>
 <div id="battleModal" class="overlay"><section class="panel"><div class="panel-head"><h2>🌲 禁林遭遇</h2><button class="close" data-close>×</button></div><p>林影越过石门，雾林狼的低吼从古老石阵后传来。准备进入禁林战斗吗？</p><button id="enterBattle" class="button">进入打怪模式</button></section></div>
 <div id="runtimeModal" class="overlay"><section class="panel"><div class="panel-head"><h2 id="runtimeTitle">正在准备 3D 场景</h2><button class="close" data-runtime-close>×</button></div><p id="runtimeText">正在载入 3D 引擎。场景就绪后会自动进入雾钟镇。</p><p><button class="button" data-runtime-close>返回启程界面</button></p></section></div>
 <script id="travelerOnboarding">
@@ -820,13 +831,13 @@ const maps={
   {id:'forestDoor',x:2150,z:1325,r:150,label:'禁林入口',action:'map',target:'forest',spawn:[500,660]},
   {id:'greenhouseDoor',x:1575,z:1558,r:110,zone:'greenhouse',label:'草药温室',action:'map',target:'greenhouse',spawn:[400,420]},
   {id:'moonwellDoor',x:1250,z:1115,r:100,zone:'fountain',label:'星月喷泉',action:'map',target:'moonwell',spawn:[400,430]},
-  {id:'sentinelDoor',x:925,z:1333,r:100,zone:'statue',label:'守夜人雕像',action:'map',target:'sentinelSanctum',spawn:[400,430]}
+  {id:'sentinelDoor',x:925,z:1333,r:100,zone:'statue',label:'守夜人雕像',action:'map',target:'sentinelSanctum',spawn:[400,430]},{id:'nameFrag1',x:925,z:1215,r:75,label:'守夜人的第一段名字',action:'quest',quest:'names',fragment:'f1'}
  ],npcs:[{id:'shopkeeper',name:'奥利凡·星尘',emoji:'🧙🏻‍♀️',x:560,z:1320,r:60,lines:['欢迎来到星尘商店。扫把、药剂与咒语书都备好了。']},{id:'hermina',name:'赫敏娜·铁笔',emoji:'🧙🏼‍♀️',x:1160,z:810,r:56,lines:['镇务委托板由我登记。日常、紧急、高危，量力而行。']},{id:'ranger',name:'林地守望者',emoji:'🧝🏻',x:1970,z:1200,r:58,lines:['禁林里有雾林狼出没。准备好之后再踏入林中。']}],mapLabels:[{name:'鸦影古堡',x:1250,z:498,big:true},{name:'星尘商店',x:686,z:1097},{name:'渡鸦旅店',x:1786,z:997},{name:'草药温室',x:1575,z:1425},{name:'镇务委托',x:1075,z:725},{name:'星月喷泉',x:1250,z:1000},{name:'守夜人',x:925,z:1300},{name:'禁林入口',x:2150,z:1325}]},
- library:{name:'鸦影古堡图书馆',size:[800,600],floor:'#523629',indoor:true,obstacles:[...walls(800,600,'#39231f'),{x:123,z:190,w:102,d:236,color:'#68442e',kind:'shelf',label:'古代史'},{x:269,z:190,w:102,d:236,color:'#76513a',kind:'shelf',label:'咒文学'},{x:715,z:190,w:70,d:236,color:'#68442e',kind:'shelf',label:'星图'},{x:445,z:320,w:180,d:100,color:'#78533a',kind:'table',label:'阅览桌'}],interactables:[{id:'exit',x:400,z:535,r:65,label:'离开图书馆',action:'map',target:'town',spawn:[1250,720]},{id:'bookAncient',x:123,z:345,r:72,label:'翻阅《雾钟镇古代史》',action:'book',book:'ancient'},{id:'bookRunes',x:269,z:345,r:72,label:'翻阅《咒文学》',action:'book',book:'runes'},{id:'bookStars',x:715,z:345,r:72,label:'翻阅《星图》',action:'book',book:'stars'},{id:'studyTable',x:445,z:450,r:72,label:'在阅览桌研读',action:'library'}],npcs:[{id:'librarian',name:'艾德蒙·鸦影',emoji:'🧙🏻‍♂️',x:540,z:205,r:55,lines:['书架间浮着细小尘埃。付出金币或时间，古籍会教你拓展魔力。']}]},
+ library:{name:'鸦影古堡图书馆',size:[800,600],floor:'#523629',indoor:true,obstacles:[...walls(800,600,'#39231f'),{x:123,z:190,w:102,d:236,color:'#68442e',kind:'shelf',label:'古代史'},{x:269,z:190,w:102,d:236,color:'#76513a',kind:'shelf',label:'咒文学'},{x:715,z:190,w:70,d:236,color:'#68442e',kind:'shelf',label:'星图'},{x:445,z:320,w:180,d:100,color:'#78533a',kind:'table',label:'阅览桌'}],interactables:[{id:'exit',x:400,z:535,r:65,label:'离开图书馆',action:'map',target:'town',spawn:[1250,720]},{id:'sideLetter',x:650,z:420,r:72,label:'把信交给艾德蒙',action:'quest',quest:'letter'},{id:'nameFrag2',x:735,z:390,r:65,label:'守夜人的第二段名字',action:'quest',quest:'names',fragment:'f2'},{id:'bookAncient',x:123,z:345,r:72,label:'翻阅《雾钟镇古代史》',action:'book',book:'ancient'},{id:'bookRunes',x:269,z:345,r:72,label:'翻阅《咒文学》',action:'book',book:'runes'},{id:'bookStars',x:715,z:345,r:72,label:'翻阅《星图》',action:'book',book:'stars'},{id:'studyTable',x:445,z:450,r:72,label:'在阅览桌研读',action:'library'}],npcs:[{id:'librarian',name:'艾德蒙·鸦影',emoji:'🧙🏻‍♂️',x:540,z:205,r:55,lines:['书架间浮着细小尘埃。付出金币或时间，古籍会教你拓展魔力。']}]},
  inn:{name:'渡鸦旅店',size:[800,600],floor:'#664a34',indoor:true,wallHeight:3.4,obstacles:[...walls(800,600,'#38271c'),{x:640,z:145,w:170,d:54,color:'#4d3021',kind:'counter',label:'酒馆柜台'}],interactables:[{id:'exit',x:400,z:535,r:72,label:'离开旅店',action:'map',target:'town',spawn:[1775,1160]},{id:'stayBed',x:370,z:405,r:92,label:'在旅店过夜（5 金币）',action:'innStay'},{id:'stairUp',x:710,z:472,r:90,label:'沿楼梯上二楼',action:'map',target:'innUpstairs',spawn:[400,430]},{id:'counter',x:625,z:220,r:60,label:'询问旅店消息',action:'innInfo'}],npcs:[{id:'innkeeper',name:'马琳',emoji:'🧙🏻‍♀️',x:625,z:210,r:54,lines:['炉火正旺，旅人。客人们正低声谈论禁林的狼影。']}]},
  innUpstairs:{name:'渡鸦旅店 · 二楼',size:[800,500],floor:'#4b3525',indoor:true,wallHeight:3.2,openNorth:true,obstacles:[...walls(800,500,'#3b2a1e').filter(w=>w.id!=='north')],interactables:[{id:'stairsDown',x:400,z:470,r:82,label:'沿楼梯下楼',action:'map',target:'inn',spawn:[710,510]},{id:'lookout',x:400,z:190,r:92,label:'眺望雾钟镇夜景',action:'lookout'},{id:'stayBedUp',x:370,z:370,r:82,label:'在二楼客房过夜（5 金币）',action:'innStay'}],npcs:[]},
  greenhouse:{name:'草药温室',size:[800,600],floor:'#66704b',indoor:true,wallHeight:2.8,obstacles:[...walls(800,600,'#43513b'),{x:180,z:235,w:200,d:70,color:'#5c382c',kind:'gardenBed',label:'月光草'},{x:620,z:235,w:200,d:70,color:'#5c382c',kind:'gardenBed',label:'银叶薄荷'},{x:180,z:500,w:200,d:70,color:'#5c382c',kind:'gardenBed',label:'星露花'},{x:620,z:500,w:200,d:70,color:'#5c382c',kind:'gardenBed',label:'雾莓藤'}],interactables:[{id:'exit',x:400,z:535,r:72,label:'离开温室',action:'map',target:'town',spawn:[1575,1615]},{id:'farm1',x:300,z:235,r:105,label:'空种植床',action:'farm',plot:'farm1'},{id:'farm2',x:500,z:235,r:105,label:'空种植床',action:'farm',plot:'farm2'},{id:'farm3',x:300,z:500,r:105,label:'空种植床',action:'farm',plot:'farm3'},{id:'farm4',x:500,z:500,r:105,label:'空种植床',action:'farm',plot:'farm4'}],npcs:[{id:'herbalist',name:'草药师萝丝玛丽',emoji:'🧙🏻‍♀️',x:510,z:300,r:56,lines:['温室水汽把玻璃染成银色。萝丝玛丽教你辨认月光草与雾莓。']}]},
- forest:{name:'禁林边缘',size:[1000,800],floor:'#203a2c',indoor:true,obstacles:[...walls(1000,800,'#172d23'),{x:145,z:150,w:90,d:110,color:'#214936',kind:'tree'},{x:340,z:140,w:100,d:120,color:'#28533a',kind:'tree'},{x:785,z:150,w:110,d:125,color:'#214936',kind:'tree'},{x:905,z:370,w:90,d:115,color:'#28533a',kind:'tree'},{x:160,z:450,w:100,d:120,color:'#28533a',kind:'tree'},{x:815,z:612,w:110,d:125,color:'#214936',kind:'tree'},{x:500,z:330,w:180,d:86,color:'#59624a',kind:'rock',label:'古老石阵'}],interactables:[{id:'exit',x:500,z:735,r:65,label:'返回雾钟镇',action:'map',target:'town',spawn:[2150,1400]},{id:'encounter',x:500,z:430,r:80,label:'踏入暗影石阵',action:'forest'},{id:'eliteMorgana',x:230,z:300,r:78,label:'暗影编织者·莫甘娜',action:'elite',elite:'morgana'},{id:'eliteGrom',x:300,z:690,r:78,label:'腐沼巫师·格罗姆',action:'elite',elite:'grom'},{id:'eliteVix',x:740,z:680,r:78,label:'骨语者·维克斯',action:'elite',elite:'vix'},{id:'eliteSerefina',x:780,z:230,r:78,label:'镜影巫师·塞拉菲娜',action:'elite',elite:'serefina'},{id:'towerGate',x:500,z:560,r:88,label:'黑塔之门',action:'tower'}],npcs:[{id:'ranger',name:'林地守望者',emoji:'🧝🏻',x:365,z:535,r:55,lines:['石阵附近有东西盯着我们。若准备好了，就进入危险区域迎战。']}]},
+ forest:{name:'禁林边缘',size:[1000,800],floor:'#203a2c',indoor:true,obstacles:[...walls(1000,800,'#172d23'),{x:145,z:150,w:90,d:110,color:'#214936',kind:'tree'},{x:340,z:140,w:100,d:120,color:'#28533a',kind:'tree'},{x:785,z:150,w:110,d:125,color:'#214936',kind:'tree'},{x:905,z:370,w:90,d:115,color:'#28533a',kind:'tree'},{x:160,z:450,w:100,d:120,color:'#28533a',kind:'tree'},{x:815,z:612,w:110,d:125,color:'#214936',kind:'tree'},{x:500,z:330,w:180,d:86,color:'#59624a',kind:'rock',label:'古老石阵'}],interactables:[{id:'exit',x:500,z:735,r:65,label:'返回雾钟镇',action:'map',target:'town',spawn:[2150,1400]},{id:'encounter',x:500,z:430,r:80,label:'踏入暗影石阵',action:'forest'},{id:'eliteMorgana',x:230,z:300,r:78,label:'暗影编织者·莫甘娜',action:'elite',elite:'morgana'},{id:'eliteGrom',x:300,z:690,r:78,label:'腐沼巫师·格罗姆',action:'elite',elite:'grom'},{id:'eliteVix',x:740,z:680,r:78,label:'骨语者·维克斯',action:'elite',elite:'vix'},{id:'eliteSerefina',x:780,z:230,r:78,label:'镜影巫师·塞拉菲娜',action:'elite',elite:'serefina'},{id:'towerGate',x:500,z:560,r:88,label:'黑塔之门',action:'tower'},{id:'nameFrag3',x:205,z:590,r:72,label:'守夜人的第三段名字',action:'quest',quest:'names',fragment:'f3'},{id:'caravanCart',x:820,z:360,r:82,label:'调查废弃商队',action:'quest',quest:'caravan'},{id:'relicFeather',x:250,z:180,r:78,label:'取回凤凰羽毛',action:'quest',quest:'relic'}],npcs:[{id:'ranger',name:'林地守望者',emoji:'🧝🏻',x:365,z:535,r:55,lines:['石阵附近有东西盯着我们。若准备好了，就进入危险区域迎战。']}]},
  moonwell:{name:'星月喷泉秘境',size:[800,600],floor:'#294a50',indoor:true,obstacles:[...walls(800,600,'#203c42'),{x:400,z:250,w:140,d:140,color:'#54818a',kind:'round',label:'月影泉眼'},{x:167,z:181,w:44,d:92,color:'#638e8b',kind:'rock'},{x:635,z:400,w:50,d:100,color:'#638e8b',kind:'rock'}],interactables:[{id:'exit',x:400,z:535,r:65,label:'返回雾钟镇',action:'map',target:'town',spawn:[1250,1170]},{id:'blessing',x:400,z:365,r:70,label:'触碰月泉',action:'blessing'}],npcs:[{id:'spirit',name:'泉中星灵',emoji:'🧚',x:570,z:210,r:52,lines:['月泉倒映着不存在于天空的星河。泉水会为疲惫旅人带来祝福。']}]},
  sentinelSanctum:{name:'守夜人密室',size:[800,600],floor:'#49473c',indoor:true,obstacles:[...walls(800,600,'#39382f'),{x:400,z:255,w:112,d:200,color:'#77715d',kind:'monolith',label:'守夜人誓言'},{x:185,z:413,w:130,d:46,color:'#655840',kind:'table'},{x:615,z:413,w:130,d:46,color:'#655840',kind:'table'}],interactables:[{id:'exit',x:400,z:535,r:65,label:'返回雾钟镇',action:'map',target:'town',spawn:[925,1385]},{id:'memory',x:400,z:400,r:75,label:'阅读守夜人铭文',action:'memory'}],npcs:[{id:'echo',name:'守夜人',emoji:'🗿',x:540,z:245,r:54,lines:['守护并非为了被铭记。古老回声讲述了守夜人守护雾钟镇的誓言。']}]},
  blackTower:{name:'黑塔',size:[800,700],floor:'#1a1420',indoor:true,wallHeight:4,obstacles:[...walls(800,700,'#0f0b14'),{x:400,z:250,w:150,d:100,color:'#2a2030',kind:'altar',label:'灵魂祭坛'}],interactables:[{id:'bossStart',x:400,z:400,r:85,label:'挑战凯勒·斯威尼',action:'boss'},{id:'exit',x:400,z:640,r:65,label:'离开黑塔',action:'map',target:'forest',spawn:[500,560]}],npcs:[]}
@@ -841,7 +852,7 @@ const TOWN_ASSET='assets/raven-castle.glb',TOWN_OFFSET_X=25,TOWN_OFFSET_Z=20,TOW
 const savedMapId=saved.currentMapId&&maps[saved.currentMapId]?saved.currentMapId:'town';
 // 旧版小镇坐标与新的 Blender 场景不兼容，旧存档从广场重新出发。
 const savedTownValid=saved.version>=SAVE_VERSION||savedMapId!=='town';
-const state={player:{name:prior.name||'新旅人',avatar:avatars.includes(prior.avatar)?prior.avatar:'🧙🏻‍♀️',originId:priorOrigin,originName:priorOrigin==='wanderer'?(prior.originName||'雾中旅人'):ORIGIN_META[priorOrigin].name,originBonus:priorOrigin==='wanderer'?(prior.originBonus||'旧日档案'):ORIGIN_META[priorOrigin].bonus,wandId:WAND_META[prior.wandId]?prior.wandId:'oak',wandName:WAND_META[prior.wandId]?WAND_META[prior.wandId].name:'橡木',wandBonus:prior.wandBonus||(WAND_META[prior.wandId]?WAND_META[prior.wandId].bonus:'生命 +25 · 护盾术'),level:prior.level||1,xp:prior.xp||0,xpNext:prior.xpNext||100,reputation:prior.reputation||0,attackBonus:prior.attackBonus||0,damageReduction:prior.damageReduction||0,story:prior.story&&typeof prior.story==='object'?prior.story:{chapter:0,introDone:false,clues:{}},gold:Number.isFinite(prior.gold)?prior.gold:120,spells:Array.isArray(prior.spells)?prior.spells:['星火咒'],inventory:Array.isArray(prior.inventory)?prior.inventory:[],quests:prior.quests||{},books:prior.books||{},farm:prior.farm&&typeof prior.farm==='object'?prior.farm:{plots:{}},hp:prior.hp||100,maxHp:prior.maxHp||100,mp:prior.mp||30,maxMp:prior.maxMp||30},map:savedMapId,spawn:savedTownValid&&Number.isFinite(prior.x)&&Number.isFinite(prior.y)?[prior.x,prior.y]:TOWN_SPAWN.slice()};
+const state={player:{name:prior.name||'新旅人',avatar:avatars.includes(prior.avatar)?prior.avatar:'🧙🏻‍♀️',originId:priorOrigin,originName:priorOrigin==='wanderer'?(prior.originName||'雾中旅人'):ORIGIN_META[priorOrigin].name,originBonus:priorOrigin==='wanderer'?(prior.originBonus||'旧日档案'):ORIGIN_META[priorOrigin].bonus,wandId:WAND_META[prior.wandId]?prior.wandId:'oak',wandName:WAND_META[prior.wandId]?WAND_META[prior.wandId].name:'橡木',wandBonus:prior.wandBonus||(WAND_META[prior.wandId]?WAND_META[prior.wandId].bonus:'生命 +25 · 护盾术'),level:prior.level||1,xp:prior.xp||0,xpNext:prior.xpNext||100,reputation:prior.reputation||0,attackBonus:prior.attackBonus||0,damageReduction:prior.damageReduction||0,story:prior.story&&typeof prior.story==='object'?prior.story:{chapter:0,introDone:false,clues:{}},gold:Number.isFinite(prior.gold)?prior.gold:120,spells:Array.isArray(prior.spells)?prior.spells:['星火咒'],inventory:Array.isArray(prior.inventory)?prior.inventory:[],quests:prior.quests||{},questProgress:prior.questProgress&&typeof prior.questProgress==='object'?prior.questProgress:{},books:prior.books||{},farm:prior.farm&&typeof prior.farm==='object'?prior.farm:{plots:{}},hp:prior.hp||100,maxHp:prior.maxHp||100,mp:prior.mp||30,maxMp:prior.maxMp||30},map:savedMapId,spawn:savedTownValid&&Number.isFinite(prior.x)&&Number.isFinite(prior.y)?[prior.x,prior.y]:TOWN_SPAWN.slice()};
 const S=.02,game=document.getElementById('game'),hint=document.getElementById('hint'),mapName=document.getElementById('mapName'),playerLabel=document.getElementById('playerLabel'),fade=document.getElementById('fade'),miniMap=document.getElementById('minimap'),miniMapCanvas=document.getElementById('miniMapCanvas'),touchInteract=document.getElementById('touchInteract'); 
 const INN_BEDS=[{x:2.9,z:6.1,rot:0},{x:5.7,z:6.1,rot:0},{x:2.9,z:8.8,rot:0},{x:5.7,z:8.8,rot:0}];
 const INN_UP_BEDS=[{x:2.6,z:5.6,rot:0},{x:2.6,z:8.0,rot:0}];
@@ -1017,6 +1028,8 @@ function disposeObject(root){if(!root)return;root.traverse(o=>{if(o.geometry)o.g
 const npcGroup=new THREE.Group();scene.add(npcGroup);let npcAvatars=[];
 const AVATAR_SKIN={'🏻':'#f1c9a5','🏼':'#e3b184','🏽':'#c98e63','🏾':'#9b6644','🏿':'#6f4935'};
 const avatarFaceCache=new Map(),avatarStyleCache=new Map();
+const EMOTES=[{id:'neutral',name:'平静',emoji:'🙂'},{id:'smile',name:'微笑',emoji:'😊'},{id:'happy',name:'开心',emoji:'😄'},{id:'surprised',name:'惊讶',emoji:'😮'},{id:'sad',name:'难过',emoji:'😢'},{id:'angry',name:'生气',emoji:'😠'},{id:'shy',name:'害羞',emoji:'😳'}];
+let emoteIndex=0,emoteUntil=0,emoteBubble=null,playerExpression='neutral';
 function avatarStyle(emoji){
  if(avatarStyleCache.has(emoji))return avatarStyleCache.get(emoji);
  const female=emoji.includes('♀'),elf=emoji.includes('🧝'),fairy=emoji.includes('🧚'),statue=emoji.includes('🗿');
@@ -1032,23 +1045,48 @@ function makeRadialTexture(inner='rgba(0,0,0,.42)',outer='rgba(0,0,0,0)'){
  const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');const gr=g.createRadialGradient(64,64,2,64,64,62);gr.addColorStop(0,inner);gr.addColorStop(1,outer);g.fillStyle=gr;g.fillRect(0,0,128,128);const t=new THREE.CanvasTexture(c);return t
 }
 const blobShadowTexture=makeRadialTexture();
-function faceTexture(style){
- const key=`${style.glasses}-${style.statue}-${style.elf}`;
+function faceTexture(style,expression='neutral'){
+ const exp=expression||'neutral',key=`${style.glasses}-${style.statue}-${style.elf}-${exp}`;
  if(avatarFaceCache.has(key))return avatarFaceCache.get(key);
  const c=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d');
- g.clearRect(0,0,256,256);
- g.strokeStyle='#3c2b23';g.fillStyle='#3c2b23';g.lineWidth=8;g.lineCap='round';
- g.beginPath();g.ellipse(88,116,13,20,0,0,Math.PI*2);g.fill();
- g.beginPath();g.ellipse(168,116,13,20,0,0,Math.PI*2);g.fill();
- g.fillStyle='#fff';g.beginPath();g.arc(93,108,5,0,Math.PI*2);g.fill();g.beginPath();g.arc(173,108,5,0,Math.PI*2);g.fill();
- g.strokeStyle='#5c4030';g.lineWidth=7;g.beginPath();g.arc(88,91,20,Math.PI*1.12,Math.PI*1.88);g.stroke();g.beginPath();g.arc(168,91,20,Math.PI*1.12,Math.PI*1.88);g.stroke();
- g.strokeStyle='#743d37';g.lineWidth=6;g.beginPath();g.arc(128,159,23,.12*Math.PI,.88*Math.PI);g.stroke();
- g.fillStyle='rgba(213,120,105,.35)';g.beginPath();g.ellipse(66,158,20,10,0,0,Math.PI*2);g.fill();g.beginPath();g.ellipse(190,158,20,10,0,0,Math.PI*2);g.fill();
+ g.clearRect(0,0,256,256);g.lineCap='round';g.lineJoin='round';
+ const closed=exp==='happy'||exp==='smile';
+ g.strokeStyle='#3c2b23';g.fillStyle='#3c2b23';g.lineWidth=8;
+ if(exp==='happy'||exp==='smile'){
+  g.lineWidth=7;g.beginPath();g.arc(88,116,17,Math.PI*1.08,Math.PI*1.92);g.stroke();g.beginPath();g.arc(168,116,17,Math.PI*1.08,Math.PI*1.92);g.stroke();
+ }else if(exp==='surprised'){
+  g.beginPath();g.ellipse(88,116,17,24,0,0,Math.PI*2);g.fill();g.beginPath();g.ellipse(168,116,17,24,0,0,Math.PI*2);g.fill();
+  g.fillStyle='#fff';g.beginPath();g.arc(94,106,7,0,Math.PI*2);g.fill();g.beginPath();g.arc(174,106,7,0,Math.PI*2);g.fill();g.fillStyle='#3c2b23';
+ }else if(exp==='angry'){
+  g.beginPath();g.ellipse(88,119,13,15,0,0,Math.PI*2);g.fill();g.beginPath();g.ellipse(168,119,13,15,0,0,Math.PI*2);g.fill();
+  g.fillStyle='#fff';g.beginPath();g.arc(92,113,4,0,Math.PI*2);g.fill();g.beginPath();g.arc(172,113,4,0,Math.PI*2);g.fill();g.fillStyle='#3c2b23';
+ }else{
+  g.beginPath();g.ellipse(88,116,13,20,0,0,Math.PI*2);g.fill();g.beginPath();g.ellipse(168,116,13,20,0,0,Math.PI*2);g.fill();
+  g.fillStyle='#fff';g.beginPath();g.arc(93,108,5,0,Math.PI*2);g.fill();g.beginPath();g.arc(173,108,5,0,Math.PI*2);g.fill();g.fillStyle='#3c2b23';
+ }
+ // brows
+ g.strokeStyle='#5c4030';g.lineWidth=7;
+ if(exp==='angry'){g.beginPath();g.moveTo(65,89);g.lineTo(105,100);g.stroke();g.beginPath();g.moveTo(191,89);g.lineTo(151,100);g.stroke()}
+ else if(exp==='sad'){g.beginPath();g.moveTo(66,98);g.lineTo(105,85);g.stroke();g.beginPath();g.moveTo(190,98);g.lineTo(151,85);g.stroke()}
+ else if(exp==='surprised'){g.beginPath();g.arc(86,88,20,Math.PI*1.15,Math.PI*1.85);g.stroke();g.beginPath();g.arc(170,88,20,Math.PI*1.15,Math.PI*1.85);g.stroke()}
+ else{g.beginPath();g.arc(88,91,20,Math.PI*1.12,Math.PI*1.88);g.stroke();g.beginPath();g.arc(168,91,20,Math.PI*1.12,Math.PI*1.88);g.stroke()}
+ // mouth
+ g.strokeStyle='#743d37';g.fillStyle='#743d37';g.lineWidth=6;
+ if(exp==='happy'){g.beginPath();g.arc(128,160,25,.12*Math.PI,.88*Math.PI);g.closePath();g.fill()}
+ else if(exp==='smile'||exp==='shy'){g.beginPath();g.arc(128,157,23,.14*Math.PI,.86*Math.PI);g.stroke()}
+ else if(exp==='surprised'){g.beginPath();g.ellipse(128,165,10,14,0,0,Math.PI*2);g.fill()}
+ else if(exp==='sad'){g.beginPath();g.arc(128,174,19,Math.PI*1.15,Math.PI*1.85);g.stroke()}
+ else if(exp==='angry'){g.beginPath();g.moveTo(106,166);g.lineTo(150,166);g.stroke()}
+ else{g.beginPath();g.arc(128,159,23,.12*Math.PI,.88*Math.PI);g.stroke()}
+ // blush
+ const blush=exp==='shy'?'rgba(220,100,105,.58)':exp==='happy'?'rgba(225,120,105,.42)':exp==='smile'?'rgba(213,120,105,.35)':'rgba(213,120,105,.28)';
+ g.fillStyle=blush;g.beginPath();g.ellipse(66,158,exp==='shy'?26:20,exp==='shy'?14:10,0,0,Math.PI*2);g.fill();g.beginPath();g.ellipse(190,158,exp==='shy'?26:20,exp==='shy'?14:10,0,0,Math.PI*2);g.fill();
+ if(exp==='sad'){g.fillStyle='rgba(120,190,225,.7)';g.beginPath();g.ellipse(70,177,5,11,0,0,Math.PI*2);g.fill();g.beginPath();g.ellipse(186,177,5,11,0,0,Math.PI*2);g.fill()}
  if(style.glasses){g.strokeStyle='rgba(73,54,35,.85)';g.lineWidth=4;g.beginPath();g.arc(88,116,28,0,Math.PI*2);g.stroke();g.beginPath();g.arc(168,116,28,0,Math.PI*2);g.stroke();g.beginPath();g.moveTo(116,115);g.lineTo(140,115);g.stroke();g.beginPath();g.moveTo(60,112);g.lineTo(42,108);g.stroke();g.beginPath();g.moveTo(196,112);g.lineTo(214,108);g.stroke()}
  if(style.statue){g.globalCompositeOperation='source-atop';g.fillStyle='rgba(100,100,90,.28)';g.fillRect(0,0,256,256);g.globalCompositeOperation='source-over'}
  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;avatarFaceCache.set(key,t);return t
 }
-function makeAvatar(emoji,name,isPlayer=false){
+function makeAvatar(emoji,name,isPlayer=false,expression='neutral'){
  const g=new THREE.Group(),style=avatarStyle(emoji);
  const bodyMat=new THREE.MeshStandardMaterial({color:style.robe,roughness:.78});
  const skinMat=new THREE.MeshStandardMaterial({color:style.skin,roughness:.72});
@@ -1056,7 +1094,7 @@ function makeAvatar(emoji,name,isPlayer=false){
  const body=new THREE.Mesh(new THREE.SphereGeometry(.34,20,14),bodyMat);body.scale.y=.9;body.position.y=.35;body.castShadow=true;body.receiveShadow=true;g.add(body);
  const head=new THREE.Mesh(new THREE.SphereGeometry(.255,22,16),skinMat);head.position.y=.73;head.castShadow=true;g.add(head);
  const collar=new THREE.Mesh(new THREE.TorusGeometry(.17,.018,6,24),trimMat);collar.rotation.x=Math.PI/2;collar.position.y=.58;g.add(collar);
- const face=new THREE.Mesh(new THREE.PlaneGeometry(.38,.31),new THREE.MeshBasicMaterial({map:faceTexture(style),transparent:true,depthWrite:false}));face.position.set(0,.735,.252);g.add(face);
+ const face=new THREE.Mesh(new THREE.PlaneGeometry(.38,.31),new THREE.MeshBasicMaterial({map:faceTexture(style,expression),transparent:true,depthWrite:false}));face.position.set(0,.735,.252);g.add(face);g.userData.face=face;
  if(style.hatOn){
   const brim=new THREE.Mesh(new THREE.CylinderGeometry(.33,.33,.035,18),new THREE.MeshStandardMaterial({color:style.hat,roughness:.76}));brim.position.y=.95;brim.castShadow=true;g.add(brim);
   const cone=new THREE.Mesh(new THREE.ConeGeometry(.255,.38,18),new THREE.MeshStandardMaterial({color:style.hat,roughness:.76}));cone.position.y=1.14;cone.rotation.z=-.07;cone.castShadow=true;g.add(cone);
@@ -1082,7 +1120,35 @@ function makeAvatar(emoji,name,isPlayer=false){
 }
 function clearNPCs(){for(const a of npcAvatars){npcGroup.remove(a);a.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){const ms=Array.isArray(o.material)?o.material:[o.material];for(const m of ms)m.dispose()}})}npcAvatars=[]}
 function addNPCs(data){clearNPCs();for(const npc of data.npcs||[]){const a=makeAvatar(npc.emoji,npc.name,false);a.position.set(npc.x*S,0,npc.z*S);a.rotation.y=0;npcGroup.add(a);npcAvatars.push(a)}}
-function refreshPlayerLook(){if(!player)return;if(playerAvatar){player.remove(playerAvatar);playerAvatar.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){const ms=Array.isArray(o.material)?o.material:[o.material];for(const m of ms)m.dispose()}})}playerAvatar=makeAvatar(state.player.avatar,state.player.name,true);player.add(playerAvatar);playerLabel.textContent=`${state.player.avatar} ${state.player.name}${state.player.originName?' · '+state.player.originName:''} · Lv.${state.player.level||1}`;updateHud()}
+function refreshPlayerLook(){if(!player)return;if(playerAvatar){player.remove(playerAvatar);playerAvatar.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){const ms=Array.isArray(o.material)?o.material:[o.material];for(const m of ms)m.dispose()}})}emoteBubble=null;const active=emoteUntil>performance.now()?EMOTES[emoteIndex].id:'neutral';playerExpression=active;playerAvatar=makeAvatar(state.player.avatar,state.player.name,true,active);player.add(playerAvatar);if(emoteUntil>performance.now())showEmoteBubble(EMOTES[emoteIndex]);playerLabel.textContent=`${state.player.avatar} ${state.player.name}${state.player.originName?' · '+state.player.originName:''} · Lv.${state.player.level||1}`;updateHud()}
+function clearEmoteBubble(){
+ if(!emoteBubble)return;if(emoteBubble.parent)emoteBubble.parent.remove(emoteBubble);if(emoteBubble.material){if(emoteBubble.material.map)emoteBubble.material.map.dispose();emoteBubble.material.dispose()}emoteBubble=null;
+}
+function applyPlayerExpression(expression){
+ playerExpression=expression||'neutral';
+ if(!playerAvatar)return;
+ const face=playerAvatar.userData.face;if(!face)return;
+ if(!face.userData.originalMap)face.userData.originalMap=face.material.map;
+ face.material.map=faceTexture(playerAvatar.userData.style||avatarStyle(state.player.avatar),playerExpression);
+ face.material.needsUpdate=true;
+}
+function showEmoteBubble(emote){
+ if(!playerAvatar)return;clearEmoteBubble();
+ const sp=sprite(`${emote.emoji} ${emote.name}`,512,128,'bold 52px Georgia,"Noto Serif SC",serif');
+ sp.scale.set(1.8,.45,1);sp.position.set(0,2.08,0);sp.material.opacity=.92;sp.userData.baseY=2.08;playerAvatar.add(sp);emoteBubble=sp;
+}
+function cycleEmote(){
+ if(!player||!playerAvatar)return;
+ emoteIndex=(emoteIndex+1)%EMOTES.length;
+ const emote=EMOTES[emoteIndex];emoteUntil=performance.now()+5000;
+ applyPlayerExpression(emote.id);showEmoteBubble(emote);
+ toast(`${emote.emoji} ${emote.name} · 表情展示 5 秒`);
+}
+function updateEmote(now){
+ if(!emoteUntil)return;
+ if(now>=emoteUntil){emoteUntil=0;emoteIndex=0;applyPlayerExpression('neutral');clearEmoteBubble();return}
+ if(emoteBubble){emoteBubble.position.y=(emoteBubble.userData.baseY||2.08)+Math.sin(now*.003)*.035;emoteBubble.material.opacity=.82+.1*Math.sin(now*.002)}
+}
 function updateHud(){const lbl=document.getElementById('playerLabel');if(lbl)lbl.textContent=`${state.player.avatar} ${state.player.name}${state.player.originName?' · '+state.player.originName:''} · Lv.${state.player.level||1}`;document.getElementById('hudGold').textContent=state.player.gold;document.getElementById('hudHp').textContent=`${state.player.hp}/${state.player.maxHp}`;document.getElementById('hudMp').textContent=`${state.player.mp}/${state.player.maxMp}`;document.getElementById('hudSpells').textContent=state.player.spells.length>2?state.player.spells.slice(0,2).join('、')+'…':(state.player.spells.join('、')||'无');if(forestCombat)updateCombatHud()}
 function makePlayer(){const g=new THREE.Group(),light=new THREE.PointLight('#ffe1ae',.9,3.6,2);light.position.set(0,.9,.55);g.add(light);scene.add(g);return g}
 // ===== Blender 小镇场景、牌匾与灯光 =====
@@ -1118,7 +1184,7 @@ function updateStoryObjective(){
  el.hidden=false;
  if(st.ending)el.textContent=st.ending==='purify'?'主线 · 结局：钟声重鸣':'主线 · 结局：永夜钟声';
  else if(st.bossDefeated)el.textContent='主线 · 凯勒·斯威尼已被击败';
- else if(st.chapter>=3)el.textContent='主线 · 进入黑塔，击败凯勒·斯威尼';
+ else if(st.chapter>=3)el.textContent='主线 · 进入黑塔，击败凯勒·斯威尼（支线可削弱他）';
  else if(st.chapter>=2)el.textContent=`主线 · 击败禁秘森林四角的精英（${storyEliteCount()}/4）`;
  else el.textContent=`主线 · 向马琳、艾德蒙·鸦影和守夜人打听钟声的异样（${storyClueCount()}/3）`;
 }
@@ -1227,7 +1293,7 @@ function updateRouteHud(){
  hud.hidden=!show;if(!show)return;
  hud.classList.toggle('off',!routeEnabled);
  const compass=document.getElementById('routeCompass'),label=document.getElementById('routeLabel'),hint=document.getElementById('routeHint'),distEl=document.getElementById('routeDistance');
- if(!routeEnabled){compass.textContent='○';label.textContent='路线指引已隐藏';hint.textContent='点击这里或按 R 恢复';distEl.textContent='';return}
+ if(!routeEnabled){compass.textContent='○';label.textContent='路线指引已隐藏';hint.textContent='点击这里或按 G 恢复';distEl.textContent='';return}
  if(!player){hud.hidden=true;return}
  const dx=routeTarget.rawX-player.position.x/S,dz=routeTarget.rawZ-player.position.z/S,dist=Math.hypot(dx,dz)*S;
  compass.textContent='↑';compass.style.transform=`rotate(${Math.atan2(dx,-dz)+cameraYaw}rad)`;
@@ -1247,7 +1313,7 @@ function toggleRoute(force){
  routeEnabled=typeof force==='boolean'?force:!routeEnabled;
  try{localStorage.setItem('mistbell_route_enabled_v1',routeEnabled?'1':'0')}catch(_){ }
  refreshRoute();
- toast(routeEnabled?'路线指引已开启 · 跟着金色路标走':'路线指引已隐藏 · 按 R 恢复');
+ toast(routeEnabled?'路线指引已开启 · 跟着金色路标走':'路线指引已隐藏 · 按 G 恢复');
 }
 let storyBannerTimer=null;
 function showStoryBanner(kicker,title,sub,duration=3600){const el=document.getElementById('storyBanner');if(!el)return;document.getElementById('storyBannerKicker').textContent=kicker;document.getElementById('storyBannerTitle').textContent=title;document.getElementById('storyBannerSub').textContent=sub;el.classList.add('show');clearTimeout(storyBannerTimer);storyBannerTimer=setTimeout(()=>el.classList.remove('show'),duration)}
@@ -1341,7 +1407,7 @@ function buildTownExtras(){
  const fireflies=new THREE.Points(fg,fmat);townRoot.add(fireflies);
  // 月亮光晕
  const moonHalo=new THREE.Sprite(new THREE.SpriteMaterial({map:makeGlowTexture('rgba(177,206,255,.85)'),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,opacity:0}));moonHalo.position.set(0,7.1,-9.6);moonHalo.scale.set(6.2,6.2,1);townRoot.add(moonHalo);
- townWaterFX=createFountainFX(townRoot,0,.65,0,2.15,2.25,'#6ec9ea',120);
+ townWaterFX=createFountainFX(townRoot,0,.65,0,2.25,2.4,'#6ec9ea',260,false,.1);
  townVisuals={windowMaterial:null,moonMaterial:null,moonHalo,fireflies};
 }
 function buildTown(gltfScene){
@@ -1585,21 +1651,24 @@ function addBookshelfFace(x,z,w,h,tex){
 function addBookStack(x,y,z){
  const colors=['#8c3d3a','#4c6e58','#52688f','#b58a45'];for(let i=0;i<4;i++){addPropBox(world,x+(i%2)*.03,y+.035+i*.07,z, .38,.07,.28,colors[i],.8)}
 }
-function createFountainFX(parent,x,y,z,radius,height,color='#9fe2ff',count=110,disc=false){
+function createFountainFX(parent,x,y,z,radius,height,color='#9fe2ff',count=110,disc=false,size=.1){
  const positions=new Float32Array(count*3),seeds=[];
- for(let i=0;i<count;i++){seeds.push({a:Math.random()*Math.PI*2,s:.35+Math.random()*.45,p:Math.random(),spread:.45+Math.random()*.55})}
+ for(let i=0;i<count;i++){const central=i<Math.floor(count*.42);seeds.push({a:Math.random()*Math.PI*2,s:(central?.55:.35)+Math.random()*.4,p:Math.random(),spread:central?.05+Math.random()*.1:.42+Math.random()*.5})}
  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(positions,3));
- const mat=new THREE.PointsMaterial({color,size:.1,transparent:true,opacity:.8,map:makeGlowTexture('rgba(150,225,255,.95)'),depthWrite:false,sizeAttenuation:true});
+ const mat=new THREE.PointsMaterial({color,size,transparent:true,opacity:.9,map:makeGlowTexture('rgba(150,225,255,.95)'),depthWrite:false,sizeAttenuation:true});
  const points=new THREE.Points(geo,mat);points.frustumCulled=false;parent.add(points);
  if(disc){const d=new THREE.Mesh(new THREE.CircleGeometry(radius*.92,32),new THREE.MeshStandardMaterial({color:'#6eaebd',transparent:true,opacity:.52,roughness:.18,metalness:.15}));d.rotation.x=-Math.PI/2;d.position.set(x,y+.02,z);parent.add(d);const jet=new THREE.Mesh(new THREE.CylinderGeometry(.07,.17,height*.92,10,1,true),new THREE.MeshBasicMaterial({color:'#bfeeff',transparent:true,opacity:.32,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));jet.position.set(x,y+height*.48,z);parent.add(jet);const crown=new THREE.Mesh(new THREE.SphereGeometry(.11,12,10),new THREE.MeshBasicMaterial({color:'#d8f6ff',transparent:true,opacity:.6,blending:THREE.AdditiveBlending,depthWrite:false}));crown.position.set(x,y+height*.94,z);parent.add(crown)}
+
+ const jets=[];
  const rings=[];for(let i=0;i<3;i++){const r=new THREE.Mesh(new THREE.RingGeometry(radius*.28,radius*.33,28),new THREE.MeshBasicMaterial({color:'#a9e8ff',transparent:true,opacity:.2,side:THREE.DoubleSide,depthWrite:false}));r.rotation.x=-Math.PI/2;r.position.set(x,y+.04,z);parent.add(r);rings.push(r)}
- return {points,seeds,origin:new THREE.Vector3(x,y,z),radius,height,rings,time:0}
+ return {points,seeds,origin:new THREE.Vector3(x,y,z),radius,height,rings,jets,time:0}
 }
 function updateFountainFX(fx,dt){
  if(!fx)return;fx.time+=dt;const pos=fx.points.geometry.attributes.position;
  for(let i=0;i<fx.seeds.length;i++){const s=fx.seeds[i],t=(fx.time*s.s+s.p)%1,r=fx.radius*s.spread*t,ang=s.a;pos.setXYZ(i,fx.origin.x+Math.cos(ang)*r,fx.origin.y+Math.sin(Math.PI*t)*fx.height,fx.origin.z+Math.sin(ang)*r)}
  pos.needsUpdate=true;
  for(let i=0;i<fx.rings.length;i++){const p=((fx.time*.3+i/3)%1),s=1+p*3.4;fx.rings[i].scale.set(s,s,s);fx.rings[i].material.opacity=.36*(1-p)}
+ for(let i=0;i<(fx.jets||[]).length;i++){const j=fx.jets[i],isTube=j.geometry&&j.geometry.type==='TubeGeometry';j.material.opacity=(isTube?.2:.3)+Math.sin(fx.time*4+i)*.08;if(!isTube&&i<2)j.scale.x=j.scale.z=1+Math.sin(fx.time*5+i)*.045}
 }
 function makeAuroraTexture(c1,c2){
  const c=document.createElement('canvas');c.width=1024;c.height=512;const g=c.getContext('2d');g.clearRect(0,0,1024,512);g.globalCompositeOperation='lighter';
@@ -1835,6 +1904,7 @@ function updateNearby(){
  const data=maps[currentMapId],p=player.position,candidates=[];
  for(const item of data.interactables){
   if(item.action==='farm'){const plot=ensureFarm().plots[item.plot],crop=plot&&FARM_CROPS[plot.type];item.label=plot?`${crop?crop.name:'植物'} · ${farmStage(plot.growth)}${plot.growth>=100?' · 可收获':''}`:'空种植床 · 播种'}
+  if(item.action==='quest'){if(!questPointEnabled(item))continue;item.label=questPointLabel(item)}
   let d;
   if(item.zone){
    const building=(data.obstacles||[]).find(o=>o.id===item.zone);
@@ -1873,7 +1943,13 @@ function save(){if(player){state.player.x=Math.round(player.position.x/S);state.
 function openModal(id){if(document.pointerLockElement)document.exitPointerLock();document.getElementById(id).classList.add('open');keys.clear();crouching=false}function closeModals(){const chatWasOpen=document.getElementById('chatModal')&&document.getElementById('chatModal').classList.contains('open');document.querySelectorAll('.overlay.open').forEach(x=>x.classList.remove('open'));if(chatWasOpen||chatNpc){clearTimeout(chatReplyTimer);chatBusy=false;chatNpc=null;}}
 function showDialog(title,body){document.getElementById('dialogTitle').textContent=title;document.getElementById('dialogBody').innerHTML=body;openModal('dialogModal')}
 function toast(text){const t=document.getElementById('toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900)}
-const shop=[{id:'healPotion',emoji:'🧪',name:'初级治疗药剂',price:10,type:'item',heal:20,desc:'恢复 20 点生命值'},{id:'amulet',emoji:'🔮',name:'魔力增幅护符',price:150,type:'gear',desc:'技能伤害 +15%'},{id:'cloak',emoji:'🧥',name:'暗影抗性斗篷',price:500,type:'gear',desc:'受到暗影系伤害 -30%'},{id:'phoenix',emoji:'🪶',name:'凤凰羽毛魔杖核心',price:2000,type:'gear',desc:'火系技能威力翻倍'},{id:'seedMoon',emoji:'🌱',name:'月光草种子',price:25,type:'seed',desc:'种在草药温室，成熟后收获月光草叶'},{id:'seedMint',emoji:'🌿',name:'银叶薄荷种子',price:20,type:'seed',desc:'种在草药温室，成熟后收获银叶薄荷'},{id:'seedStar',emoji:'✨',name:'星露花种子',price:40,type:'seed',desc:'种在草药温室，成熟后收获星露花'},{id:'fertilizer',emoji:'🪴',name:'草药肥料',price:15,type:'supply',desc:'给种植床施肥，显著加快生长'}];
+const shop=[{id:'healPotion',emoji:'🧪',name:'初级治疗药剂',price:10,type:'item',heal:30,desc:'恢复 30 点生命值'},
+ {id:'greaterPotion',emoji:'🧴',name:'强效治疗药剂',price:35,type:'item',heal:70,desc:'恢复 70 点生命值，适合最终战'},
+ {id:'manaPotion',emoji:'🔷',name:'魔力药剂',price:25,type:'item',mana:35,desc:'恢复 35 点魔力值'},
+ {id:'trailRation',emoji:'🍞',name:'旅人干粮',price:12,type:'item',heal:15,mana:10,desc:'恢复 15 生命与 10 魔力'},
+ {id:'apprenticeRobe',emoji:'🧥',name:'学徒长袍',price:120,type:'gear',effect:'hp',desc:'永久提高 15 点生命上限'},
+ {id:'focusRing',emoji:'💍',name:'专注指环',price:180,type:'gear',effect:'mp',desc:'永久提高 8 点魔力上限'},
+ {id:'shadowCharm',emoji:'🧿',name:'守夜人护符',price:220,type:'gear',effect:'dr',desc:'受到的伤害 -6%（可与斗篷叠加）'},{id:'amulet',emoji:'🔮',name:'魔力增幅护符',price:150,type:'gear',desc:'技能伤害 +15%'},{id:'cloak',emoji:'🧥',name:'暗影抗性斗篷',price:500,type:'gear',desc:'受到暗影系伤害 -30%'},{id:'phoenix',emoji:'🪶',name:'凤凰羽毛魔杖核心',price:2000,type:'gear',desc:'火系技能威力翻倍'},{id:'seedMoon',emoji:'🌱',name:'月光草种子',price:25,type:'seed',desc:'种在草药温室，成熟后收获月光草叶'},{id:'seedMint',emoji:'🌿',name:'银叶薄荷种子',price:20,type:'seed',desc:'种在草药温室，成熟后收获银叶薄荷'},{id:'seedStar',emoji:'✨',name:'星露花种子',price:40,type:'seed',desc:'种在草药温室，成熟后收获星露花'},{id:'fertilizer',emoji:'🪴',name:'草药肥料',price:15,type:'supply',desc:'给种植床施肥，显著加快生长'}];
 
 const FARM_PLOTS=[{id:'farm1',x:300,z:235},{id:'farm2',x:500,z:235},{id:'farm3',x:300,z:500},{id:'farm4',x:500,z:500}];
 const FARM_CROPS={
@@ -1931,7 +2007,7 @@ function fertilizeFarmPlot(id){
 function harvestFarmPlot(id){
  const farm=ensureFarm(),plot=farm.plots[id];if(!plot)return;
  if(plot.growth<100){toast('还没有成熟');return}
- const crop=FARM_CROPS[plot.type];addInventory(crop.produce,crop.produceName,1);delete farm.plots[id];save();updateHud();closeModals();buildFarmVisuals();toast(`收获了${crop.produceName}`);
+ const crop=FARM_CROPS[plot.type];addInventory(crop.produce,crop.produceName,1);delete farm.plots[id];save();updateHud();closeModals();buildFarmVisuals();toast(`收获了${crop.produceName}`);if(plot.type==='moon'&&questStatus('moon')==='active')markQuestReady('moon','月光草叶已经收好，回委托板领取奖励');
 }
 function clearFarmPlot(id){const farm=ensureFarm();if(!farm.plots[id])return;delete farm.plots[id];save();closeModals();buildFarmVisuals();toast('清空了种植床')}
 function advanceFarmHours(hours){
@@ -1963,32 +2039,75 @@ function updateFarm(dt,now){
  if(now-lastFarmSave>18000){lastFarmSave=now;save()}
 }
 const quests=[
- {id:'letter',name:'送信：北塔的回音',reward:45,spell:null,desc:'黄昏雾气漫上石阶，信封沾着蓝铃花香。请将馆长旧友的信送到图书馆。'},
- {id:'herbs',name:'采集：月光草药',reward:55,spell:'回春光',desc:'雨后银叶草在夜风中发亮，药剂师等着它们入锅。'},
- {id:'experiment',name:'协助：巫师的实验',reward:70,spell:'雷鸣术',desc:'铜管轻颤，紫色火焰在瓶中忽明忽暗。帮馆长记录星尘反应。'},
- {id:'cat',name:'寻找：钟楼里的猫',reward:40,spell:null,desc:'橘猫阿炭失踪两晚，雾里偶尔传来很轻的铃声。'},
- {id:'patrol',name:'巡逻：旧石径',reward:65,spell:'雾步术',desc:'苔藓染深旧石径，喷泉边出现了不寻常的爪印。'},
- {id:'lantern',name:'修补：雾港的引路灯',reward:50,spell:'照明术',desc:'港口最后一盏引路灯昨夜熄灭。守夜人希望有人在浓雾升起前把它重新点亮。'},
- {id:'lostbook',name:'寻找：遗失的星图',reward:75,spell:'星图术',desc:'一页星图从古堡高窗飘进了旧城巷。没有它，月底的观星会只能取消。'},
- {id:'mint',name:'采集：银叶薄荷',reward:48,spell:null,desc:'温室北角的银叶薄荷又被夜露压弯了。萝丝玛丽需要一篮带着晨雾气息的叶片。'},
- {id:'bell',name:'校准：雾钟的时辰',reward:80,spell:'钟鸣术',desc:'雾钟比星象慢了半刻。爬进钟楼，把铜摆校准到月升之前。'},
- {id:'shadow',name:'调查：旧宅的灯影',reward:60,spell:null,desc:'无人居住的旧宅每晚都会亮起一盏灯。去看看是谁在雾里留灯。'},
- {id:'ferry',name:'护送：夜渡的旅人',reward:95,spell:'雾隐术',desc:'一位没有影子的旅人要渡雾河。把他送到对岸，别问他的名字。'},
- {id:'thorn',name:'修剪：温室里的荆棘',reward:42,spell:null,desc:'一株会咬人的荆棘爬满了温室拱门。带上厚手套，替萝丝玛丽把它修剪整齐。'}
+ {id:'letter',name:'支线 · 未寄出的信',reward:55,desc:'马琳把一封没有寄出的信交给你。收信人住在鸦影古堡，而信里写着一个被钟声抹掉的名字。',objective:'把信交给艾德蒙·鸦影',where:'鸦影古堡图书馆'},
+ {id:'moon',name:'支线 · 月光草的约定',reward:60,desc:'萝丝玛丽想用一片成熟的月光草叶，替凯勒的女儿做最后一次安魂仪式。种子和肥料都在星尘商店。',objective:'在草药温室收获月光草叶',where:'草药温室'},
+ {id:'names',name:'支线 · 三个名字',reward:90,desc:'守夜人的真名被凯勒拆成三段，分别藏在镇上的石像、古堡书页和森林旧碑里。找回名字，才能削弱黑塔。',objective:'找回散落的三段守夜人之名',where:'雾钟镇 · 古堡 · 森林'},
+ {id:'caravan',name:'支线 · 失踪的商队',reward:100,desc:'赫敏娜的商队最后一次出现在禁秘森林的旧商道。货箱还在，人却只剩影子。',objective:'调查废弃商队并击退暗影',where:'禁秘森林'},
+ {id:'relic',name:'支线 · 凤凰余烬',reward:140,desc:'奥利凡说，北侧枯树下落着一根仍在燃烧的凤凰羽毛。没有它，黑塔里的火系咒文会弱一半。',objective:'取回凤凰羽毛',where:'禁秘森林北侧'}
 ];
 function hasItem(id){return (state.player.inventory||[]).some(i=>i.id===id)}
-function potionCount(){return (state.player.inventory||[]).filter(i=>i.id==='healPotion').reduce((n,i)=>n+(i.count||1),0)}
+function potionCount(){return (state.player.inventory||[]).filter(i=>['healPotion','greaterPotion','trailRation'].includes(i.id)).reduce((n,i)=>n+(i.count||1),0)}
+function consumeItem(item){if(!item)return;if(item.count&&item.count>1)item.count-=1;else{const i=state.player.inventory.indexOf(item);if(i>=0)state.player.inventory.splice(i,1)}}
 function useHealingPotion(){
- const item=(state.player.inventory||[]).find(i=>i.id==='healPotion');
- if(!item){toast('没有治疗药剂了');return}
+ const inv=state.player.inventory||[];
+ const item=['greaterPotion','healPotion','trailRation'].map(id=>inv.find(i=>i.id===id)).find(Boolean);
+ if(!item){toast('没有治疗用品了');return}
  if(state.player.hp>=state.player.maxHp){toast('生命值已满');return}
- state.player.hp=Math.min(state.player.maxHp,state.player.hp+20);
- if(item.count&&item.count>1)item.count-=1;else state.player.inventory.splice(state.player.inventory.indexOf(item),1);
- save();updateHud();toast('饮下治疗药剂 · 生命 +20');
+ const now=performance.now();if(now<potionReadyAt){toast(`药剂还在冷却（${Math.ceil((potionReadyAt-now)/1000)} 秒）`);return}
+ const heal=item.heal||30,mana=item.mana||0;
+ state.player.hp=Math.min(state.player.maxHp,state.player.hp+heal);
+ if(mana)state.player.mp=Math.min(state.player.maxMp,state.player.mp+mana);
+ consumeItem(item);potionReadyAt=now+9000;
+ save();updateHud();toast(`使用${item.name} · 生命 +${heal}${mana?' · 魔力 +'+mana:''} · 9 秒冷却`);
 }
+function useManaPotion(){
+ const inv=state.player.inventory||[];
+ const item=inv.find(i=>i.id==='manaPotion')||inv.find(i=>i.id==='trailRation');
+ if(!item){toast('没有魔力用品了');return}
+ if(state.player.mp>=state.player.maxMp){toast('魔力值已满');return}
+ const now=performance.now();if(now<potionReadyAt){toast(`药剂还在冷却（${Math.ceil((potionReadyAt-now)/1000)} 秒）`);return}
+ const mana=item.mana||35;
+ state.player.mp=Math.min(state.player.maxMp,state.player.mp+mana);
+ consumeItem(item);potionReadyAt=now+9000;
+ save();updateHud();toast(`使用${item.name} · 魔力 +${mana} · 9 秒冷却`);
+}
+
 function renderShop(){document.getElementById('shopGold').textContent=state.player.gold;document.getElementById('shopItems').innerHTML=shop.map(x=>{const owned=x.type==='gear'&&hasItem(x.id);return `<div class="shop-row"><div><strong>${x.emoji} ${x.name}</strong><small>${x.desc} · ${x.price} 金币</small></div><button class="button" data-buy="${x.id}" ${owned||state.player.gold<x.price?'disabled':''}>${owned?'已拥有':'购买'}</button></div>`}).join('')}
 function openShop(){renderShop();openModal('shopModal')}
-function buy(id){const item=shop.find(x=>x.id===id);if(!item||state.player.gold<item.price)return;if(item.type==='gear'&&hasItem(item.id))return;state.player.gold-=item.price;if(item.heal)state.player.inventory.push({id:item.id,name:item.name,count:1,heal:item.heal});else state.player.inventory.push({id:item.id,name:item.name,count:1});save();renderShop();updateHud();toast(`购入了${item.name}`)}
+function buy(id){
+ const item=shop.find(x=>x.id===id);if(!item||state.player.gold<item.price)return;
+ if(item.type==='gear'&&hasItem(item.id))return;
+ state.player.gold-=item.price;
+ if(item.type==='gear'){
+  if(item.effect==='hp'){state.player.maxHp+=15;state.player.hp+=15}
+  else if(item.effect==='mp'){state.player.maxMp+=8;state.player.mp+=8}
+  else if(item.effect==='dr')state.player.damageReduction=Math.min(.5,(state.player.damageReduction||0)+.06);
+  state.player.inventory.push({id:item.id,name:item.name,count:1});
+ }else if(item.heal||item.mana){
+  state.player.inventory.push({id:item.id,name:item.name,count:1,heal:item.heal||0,mana:item.mana||0});
+ }else state.player.inventory.push({id:item.id,name:item.name,count:1});
+ save();renderShop();updateHud();toast(`购入了${item.name}`);
+}
+function ensureQuestProgress(){const p=state.player;if(!p.questProgress||typeof p.questProgress!=='object')p.questProgress={};return p.questProgress}
+function questStatus(id){return state.player.quests[id]||'available'}
+function questProgress(id){const all=ensureQuestProgress();if(!all[id]||typeof all[id]!=='object')all[id]={};return all[id]}
+function markQuestReady(id,message){
+ if(questStatus(id)!=='active')return;
+ state.player.quests[id]='ready';questProgress(id).ready=true;save();
+ toast(message||'支线目标已完成 · 回委托板领取奖励');
+ renderQuests();
+ showStoryBanner('支线 · 目标完成',quests.find(q=>q.id===id)?.name||'支线',message||'回到镇务委托板领取奖励。',3600);
+}
+function completeSideQuest(q){
+ state.player.quests[q.id]='done';const st=ensureStory();state.player.gold+=q.reward;
+ if(q.id==='letter'){state.player.maxHp+=10;state.player.hp=state.player.maxHp;st.blessingLetter=true;gainReputation(2)}
+ else if(q.id==='moon'){state.player.maxHp+=10;state.player.hp=state.player.maxHp;addInventory('healPotion','初级治疗药剂',2);st.blessingMoon=true;gainReputation(2)}
+ else if(q.id==='names'){state.player.maxMp+=10;state.player.mp=state.player.maxMp;st.blessingNames=true;gainReputation(4)}
+ else if(q.id==='caravan'){state.player.damageReduction=Math.min(.5,(state.player.damageReduction||0)+.06);addInventory('healPotion','初级治疗药剂',2);st.blessingCaravan=true;gainReputation(3)}
+ else if(q.id==='relic'){state.player.attackBonus=(state.player.attackBonus||0)+4;addInventory('phoenixFeather','凤凰羽毛',1);st.blessingRelic=true;gainReputation(3)}
+ gainXp(45);save();updateHud();renderQuests();refreshRoute();
+ showStoryBanner('支线完成',q.name,`获得 ${q.reward} 金币与守夜人的祝福。`,4200);
+}
 function updateQuestScrollHint(){
  const box=document.getElementById('questItems'),hint=document.getElementById('questScrollHint');
  if(!box||!hint)return;
@@ -1996,38 +2115,91 @@ function updateQuestScrollHint(){
  hint.textContent=!canScroll?'全部委托已展示':(atEnd?'已到簿册末尾':'滚轮向下翻阅');
  hint.classList.toggle('at-end',!canScroll||atEnd);
 }
+function renderSideQuestHud(){
+ const hud=document.getElementById('sideQuestHud'),list=document.getElementById('sideQuestList'),count=document.getElementById('sideQuestCount');
+ if(!hud||!list)return;
+ const active=quests.filter(q=>questStatus(q.id)==='active'||questStatus(q.id)==='ready');
+ hud.hidden=!active.length;if(!active.length)return;
+ const ready=active.filter(q=>questStatus(q.id)==='ready').length;
+ if(count)count.textContent=`${active.length} 项${ready?' · '+ready+' 项可领取':''}`;
+ list.innerHTML=active.map(q=>{
+  const status=questStatus(q.id),prog=questProgress(q.id);
+  let objective=q.objective;
+  if(q.id==='names')objective=`找回守夜人之名（${['f1','f2','f3'].filter(k=>prog[k]).length}/3）`;
+  if(q.id==='caravan'&&prog.started)objective='击败旧商道上的暗影';
+  if(q.id==='letter')objective='把信交给艾德蒙·鸦影';
+  if(q.id==='relic')objective='取回凤凰羽毛';
+  return `<div class="side-quest-item${status==='ready'?' ready':''}"><strong>${q.name.replace('支线 · ','')}</strong><small>${status==='ready'?'可领取奖励 · 回委托板':objective}</small></div>`;
+ }).join('');
+}
 function renderQuests(){
- const box=document.getElementById('questItems'),st=box?box.scrollTop:0,priority={active:0,available:1,done:2};
- const active=quests.filter(q=>state.player.quests[q.id]==='active').length,done=quests.filter(q=>state.player.quests[q.id]==='done').length;
- document.getElementById('questCount').textContent=`${quests.length} 项委托 · ${active} 项进行中 · ${done} 项已完成`;
- const ordered=[...quests].sort((a,b)=>priority[state.player.quests[a.id]||'available']-priority[state.player.quests[b.id]||'available']);
+ const box=document.getElementById('questItems'),st=box?box.scrollTop:0,priority={ready:0,active:1,available:2,done:3};
+ const active=quests.filter(q=>questStatus(q.id)==='active'||questStatus(q.id)==='ready').length,done=quests.filter(q=>questStatus(q.id)==='done').length;
+ document.getElementById('questCount').textContent=`${quests.length} 项预备委托 · ${active} 项进行中 · ${done} 项已完成`;
+ const ordered=[...quests].sort((a,b)=>priority[questStatus(a.id)]-priority[questStatus(b.id)]);
  box.innerHTML=ordered.map(q=>{
-  const status=state.player.quests[q.id]||'available';
-  const btn=status==='available'?`<button class="button" data-quest="${q.id}" aria-label="接取委托 ${q.name}">接取委托</button>`:status==='active'?`<button class="button" data-complete="${q.id}" aria-label="完成委托 ${q.name}">完成并领取</button>`:'<span class="badge finished">已完成</span>';
-  return `<article class="quest"><div><strong>${q.name}</strong><small>${q.desc}</small><small class="badge${status==='done'?' finished':''}">奖励：${q.reward} 金币${q.spell?' + 解锁「'+q.spell+'」':''} · 状态：${status==='available'?'待接取':status==='active'?'进行中':'已完成'}</small></div><div>${btn}</div></article>`;
+  const status=questStatus(q.id),prog=questProgress(q.id),namesFound=['f1','f2','f3'].filter(k=>prog[k]).length;
+  let objective=q.objective;
+  if(q.id==='names'&&status==='active')objective=`找回守夜人之名（${namesFound}/3）`;
+  if(q.id==='caravan'&&prog.started)objective='击败旧商道上的暗影';
+  if(q.id==='moon'&&status==='active')objective='在温室收获一片成熟月光草叶';
+  if(q.id==='letter'&&status==='active')objective='把信交给艾德蒙·鸦影（鸦影古堡）';
+  if(q.id==='relic'&&status==='active')objective='取回凤凰羽毛（森林北侧）';
+  const btn=status==='available'?`<button class="button" data-quest="${q.id}">接取委托</button>`:status==='ready'?`<button class="button" data-complete="${q.id}">领取奖励</button>`:status==='active'?'<span class="badge">进行中</span>':'<span class="badge finished">已完成</span>';
+  return `<article class="quest"><div><strong>${q.name}</strong><small>${q.desc}</small><small class="badge${status==='done'?' finished':''}">目标：${status==='ready'?'已完成 · 回委托板领取':objective}</small><small>地点：${q.where} · 奖励：${q.reward} 金币 + 守夜人祝福 · 状态：${status==='available'?'待接取':status==='active'?'进行中':status==='ready'?'待领取':'已完成'}</small></div><div>${btn}</div></article>`;
  }).join('');
  if(box)box.scrollTop=st;
+ renderSideQuestHud();
  requestAnimationFrame(updateQuestScrollHint);
 }
 function task(id,complete=false){
- const q=quests.find(x=>x.id===id);
- if(!q)return;
+ const q=quests.find(x=>x.id===id);if(!q)return;
  if(complete){
-  if(state.player.quests[id]!=='active')return;
-  state.player.quests[id]='done';state.player.gold+=q.reward;
-  if(q.spell&&!state.player.spells.includes(q.spell))state.player.spells.push(q.spell);
-  gainXp(35);gainReputation(1);
-  toast(`委托完成：${q.name} · 获得 ${q.reward} 金币${q.spell?' 与「'+q.spell+'」':''}`);
- }else{
-  if((state.player.quests[id]||'available')!=='available')return;
-  state.player.quests[id]='active';
-  toast(`已接取委托：${q.name}`);
+  if(questStatus(id)!=='ready'){toast('目标尚未完成，不能领取奖励');return}
+  completeSideQuest(q);return;
  }
- save();renderQuests();
+ if(questStatus(id)!=='available')return;
+ state.player.quests[id]='active';ensureQuestProgress()[id]={};
+ if(id==='moon'&&inventoryCount('moonleaf')>0)markQuestReady('moon','你已经有一片成熟的月光草叶');
+ else if(id==='letter'&&state.player.quests.letter==='active')toast('已接取：把信送到鸦影古堡');
+ else toast(`已接取支线：${q.name}`);
+ save();renderQuests();refreshRoute();
 }
+
+function questPointEnabled(item){
+ if(questStatus(item.quest)!=='active')return false;
+ const prog=questProgress(item.quest);
+ if(item.quest==='names')return !prog[item.fragment];
+ return true;
+}
+function questPointLabel(item){
+ if(item.quest==='letter')return '把信交给艾德蒙';
+ if(item.quest==='names')return '拾取守夜人的名字残页';
+ if(item.quest==='caravan')return '调查废弃商队';
+ if(item.quest==='relic')return '取回凤凰羽毛';
+ return '支线目标';
+}
+function handleQuestPoint(item){
+ const q=quests.find(x=>x.id===item.quest);if(!q||!questPointEnabled(item))return;
+ if(item.quest==='letter'){
+  markQuestReady('letter','艾德蒙读完了信 · 回委托板领取奖励');
+  showDialog('未寄出的信',`<p>艾德蒙拆开信，读到一半停住了。信里写着马琳年轻时被钟声抹掉的名字——也正是凯勒一直在找的那个名字。</p><p>“把它带回去。告诉她，我记得。”</p>`);
+ }else if(item.quest==='names'){
+  const prog=questProgress('names');prog[item.fragment]=true;save();
+  const n=['f1','f2','f3'].filter(k=>prog[k]).length;
+  if(n>=3){markQuestReady('names','三段名字拼成了完整的守夜人之名');showDialog('完整之名',`<p>三段刻痕在纸页上重新拼合，守夜人的真名终于完整。黑塔深处传来一声愤怒的低吼。</p><p style="color:#bda66f">守夜人的真名已找回 · 凯勒的灵魂护盾会被削弱</p>`)}
+  else{toast(`找回守夜人之名（${n}/3）`);showDialog('名字残页',`<p>纸页上只剩半截笔画，像被火燎过。还差 ${3-n} 段。</p>`)}
+ }else if(item.quest==='caravan'){
+  const prog=questProgress('caravan');prog.started=true;save();startSideCombat('caravan');
+ }else if(item.quest==='relic'){
+  markQuestReady('relic','凤凰羽毛还在发烫');
+  showDialog('凤凰余烬',`<p>枯树下插着一根仍在燃烧的羽毛。你把它拔出来时，火焰没有灼伤你，反而沿着掌心流进魔杖。</p><p style="color:#bda66f">取回了凤凰羽毛 · 回委托板领取奖励</p>`);
+ }
+}
+
 let forestCombat=null;
-const combatBolts=[],combatBursts=[];
-let combatCastCooldown=0,combatEndTimer=null;
+const combatBolts=[],combatBursts=[],combatHazards=[];
+let combatCastCooldown=0,combatEndTimer=null,potionReadyAt=0;
 function updateCombatHud(){
  if(!forestCombat)return;
  const hp=Math.max(0,state.player.hp),mp=Math.max(0,state.player.mp),alive=forestCombat.enemies.filter(e=>e.alive).length;
@@ -2037,10 +2209,10 @@ function updateCombatHud(){
  const ht=document.getElementById('combatHpText'),mt=document.getElementById('combatMpText'),ec=document.getElementById('combatEnemies'),cw=document.getElementById('combatWave');
  const title=document.getElementById('combatTitle');
  const boss=forestCombat.enemies.find(e=>e.alive&&e.kind==='boss');
- if(title)title.textContent=forestCombat.kind==='elite'?`禁秘森林 · ${ELITES[forestCombat.eliteId]?.name||'精英'}`:forestCombat.kind==='boss'?'黑塔 · 凯勒·斯威尼':'禁秘森林 · 暗影来袭';
+ if(title)title.textContent=forestCombat.kind==='elite'?`禁秘森林 · ${ELITES[forestCombat.eliteId]?.name||'精英'}`:forestCombat.kind==='side'?'禁秘森林 · 旧商道':forestCombat.kind==='boss'?'黑塔 · 凯勒·斯威尼':'禁秘森林 · 暗影来袭';
  if(ht)ht.textContent=`${hp} / ${state.player.maxHp}`;if(mt)mt.textContent=`${mp} / ${state.player.maxMp}`;
- if(ec)ec.textContent=forestCombat.kind==='boss'?'最终战 · 凯勒·斯威尼':forestCombat.kind==='elite'?'精英 · 1':'暗影残存 × '+alive;
- if(cw)cw.textContent=forestCombat.kind==='boss'?`第${boss?boss.bossPhase:1}阶段`:forestCombat.kind==='elite'?'精英战':'第一波'
+ if(ec)ec.textContent=forestCombat.kind==='boss'?(boss&&boss.shielded?`灵魂护盾 · 击败残影 × ${forestCombat.enemies.filter(e=>e.alive&&e.kind==='add').length}`:boss&&boss.enraged?'最终战 · 凯勒·斯威尼 · 狂暴':'最终战 · 凯勒·斯威尼'):forestCombat.kind==='elite'?'精英 · 1':forestCombat.kind==='side'?'商队暗影 × '+alive:'暗影残存 × '+alive;
+ if(cw)cw.textContent=forestCombat.kind==='boss'?`第${boss?boss.bossPhase:1}阶段${boss&&boss.enraged?' · 狂暴':''}`:forestCombat.kind==='elite'?'精英战':'第一波'
  const bv=document.getElementById('bossVital'),bf=document.getElementById('bossVitalFill'),bn=document.getElementById('bossVitalName');
  if(bv){bv.hidden=!boss;if(boss){if(bn)bn.textContent='凯勒·斯威尼';if(bf)bf.style.width=`${Math.max(0,boss.hp/boss.maxHp*100)}%`}}
 }
@@ -2097,10 +2269,43 @@ function startEliteCombat(id){
  updateCombatHud();updateNearby();
 }
 function spawnBossEnemy(){
- const g=makeAvatar('🧙🏿‍♂️','凯勒·斯威尼',false);g.position.set(9.8,0,5.8);g.scale.setScalar(1.55);world.add(g);
+ const st=ensureStory();
+ let maxHp=980;
+ if(st.blessingNames)maxHp-=160;
+ if(st.blessingLetter)maxHp-=70;
+ const now=performance.now();
+ const g=makeAvatar('🧙🏿‍♂️','凯勒·斯威尼',false);g.position.set(9.8,0,5.8);g.scale.setScalar(1.65);world.add(g);
  const pl=new THREE.PointLight('#b83255',4,7,2);pl.position.y=1.4;g.add(pl);
  const b=makeEnemyBar(g,1.95,.9);b.bar.visible=false;
- return {group:g,hp:520,maxHp:520,speed:.8,damage:17,alive:true,nextAttack:performance.now()+1800,phase:Math.random()*6.28,bar:b.bar,barFill:b.barFill,type:'boss',kind:'boss',bossPhase:1,light:pl};
+ return {group:g,hp:maxHp,maxHp,speed:.82,damage:24,alive:true,nextAttack:now+1800,phase:Math.random()*6.28,bar:b.bar,barFill:b.barFill,type:'boss',kind:'boss',bossPhase:1,light:pl,shielded:false,shieldUntil:0,summoned2:false,summoned3:false,enrageAt:now+155000,enraged:false,nextHazard:now+6500};
+}
+function sideBlessingSummary(){
+ const st=ensureStory(),rows=[];
+ if(st.blessingNames)rows.push('守夜人的真名：凯勒的生命上限降低，灵魂护盾更薄');
+ if(st.blessingMoon)rows.push('月光草的安魂：你的生命上限提高，并多带两瓶药剂');
+ if(st.blessingCaravan)rows.push('旧商道的见证：你对暗影伤害的抗性提高');
+ if(st.blessingLetter)rows.push('未寄出的信：马琳的旧名让凯勒的护盾出现裂隙');
+ if(st.blessingRelic)rows.push('凤凰余烬：你的法术伤害提高');
+ return rows.length?rows.join('；'):'你还没有完成任何预备委托。凯勒的护盾完整，这一战会非常艰难。';
+}
+function openBossIntro(){
+ const st=ensureStory();
+ showDialog('黑塔 · 灵魂祭坛',`<p>祭坛上悬着一团被拆开的灵魂。凯勒·斯威尼站在塔心，怀里抱着一件小小的旧斗篷。</p><p>“莉娅怕黑。”他说，“所以我让整座塔都亮着。”</p><p>塔顶的暗影回应了他。那不是守护，而是囚笼。</p><p style="color:#bda66f">${sideBlessingSummary()}</p><p><button class="button" data-boss-start="1">踏入灵魂祭坛</button></p>`);
+}
+function spawnBossAdds(e,count){
+ const now=performance.now(),positions=[[-1.7,-.7],[1.7,-.6],[0,1.5],[-1.2,1.2]];
+ for(let i=0;i<count;i++){
+  const [ox,oz]=positions[i%positions.length];
+  const x=Math.max(2.2,Math.min(17.8,e.group.position.x+ox)),z=Math.max(2.2,Math.min(13.8,e.group.position.z+oz));
+  const a=spawnShadowEnemy('wraith',x,z);a.kind='add';a.hp=105;a.maxHp=105;a.damage=10;a.nextAttack=now+1400;
+  if(forestCombat){forestCombat.enemies.push(a);forestCombat.total++}
+ }
+}
+function createBossHazard(x,z,radius=1.35,damage=17){
+ if(!world)return;
+ const ring=new THREE.Mesh(new THREE.RingGeometry(radius*.62,radius,32),new THREE.MeshBasicMaterial({color:'#d24d78',transparent:true,opacity:.65,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending}));
+ ring.rotation.x=-Math.PI/2;ring.position.set(x,.055,z);world.add(ring);
+ combatHazards.push({ring,x,z,radius,damage,age:0,life:3.2,hit:false});
 }
 function startBossCombat(){
  if(forestCombat||currentMapId!=='blackTower'||!player)return;
@@ -2110,7 +2315,19 @@ function startBossCombat(){
  forestCombat={kind:'boss',enemies:[e],started:performance.now(),total:1,ending:false};
  document.getElementById('combatHud').hidden=false;document.body.classList.add('combat-active');
  scene.fog.color.set('#180b16');scene.fog.near=4;scene.fog.far=18;
- showWhisper('凯勒·斯威尼从灵魂祭坛前抬起头。“又一个来送名字的人。”',5200);toast('最终战 · 凯勒·斯威尼');
+ showWhisper('凯勒·斯威尼从灵魂祭坛前抬起头。“又一个来送名字的人。”',5200);toast('最终战 · 凯勒·斯威尼 · 注意灵魂护盾与暗影裂隙');
+ updateCombatHud();updateNearby();
+}
+function startSideCombat(questId){
+ if(forestCombat||currentMapId!=='forest'||!player)return;
+ closeModals();
+ const p=player.position,spots=[[p.x-2.4,p.z-1.6],[p.x+2.4,p.z-1.3]];
+ forestCombat={kind:'side',questId,enemies:[],started:performance.now(),total:2,ending:false};
+ spots.forEach(([x,z],i)=>forestCombat.enemies.push(spawnShadowEnemy(i===1?'brute':'wraith',Math.max(2,Math.min(18,x)),Math.max(2,Math.min(14,z)))));
+ for(const e of forestCombat.enemies)e.nextAttack=performance.now()+1700;
+ document.getElementById('combatHud').hidden=false;document.body.classList.add('combat-active');
+ scene.fog.color.set('#170b10');scene.fog.near=4.2;scene.fog.far=16;
+ showWhisper('货箱后面亮起两双红色的眼睛。',3800);toast('旧商道的暗影现身');
  updateCombatHud();updateNearby();
 }
 function startForestCombat(){
@@ -2142,7 +2359,9 @@ function damageForestPlayer(amount){
 function castForestSpell(){
  if(!forestCombat||!player)return;
  const now=performance.now();if(now<combatCastCooldown)return;
- const target=forestCombat.enemies.filter(e=>e.alive).sort((a,b)=>player.position.distanceTo(a.group.position)-player.position.distanceTo(b.group.position))[0];
+ const alive=forestCombat.enemies.filter(e=>e.alive),boss=alive.find(e=>e.kind==='boss'),adds=alive.filter(e=>e.kind==='add');
+ const pool=boss&&boss.shielded&&adds.length?adds:alive;
+ const target=pool.sort((a,b)=>player.position.distanceTo(a.group.position)-player.position.distanceTo(b.group.position))[0];
  if(!target){toast('石阵已经安静下来');return}
  combatCastCooldown=now+360;
  player.rotation.y=Math.atan2(target.group.position.x-player.position.x,target.group.position.z-player.position.z);
@@ -2163,12 +2382,15 @@ function finishForestCombat(result){
  combatBolts.length=0;
  for(const b of combatBursts){if(b.sprite.parent)world.remove(b.sprite);if(b.sprite.material){if(b.sprite.material.map)b.sprite.material.map.dispose();b.sprite.material.dispose()}}
  combatBursts.length=0;
+ for(const h of combatHazards){if(h.ring.parent)world.remove(h.ring);h.ring.geometry.dispose();h.ring.material.dispose()}
+ combatHazards.length=0;
  document.getElementById('combatHud').hidden=true;document.body.classList.remove('combat-active');
  if(forestArenaRing)forestArenaRing.material.opacity=.2;
  if(currentMapId==='forest'){scene.fog.color.set('#07120c');scene.fog.near=5.5;scene.fog.far=21}else if(currentMapId==='blackTower'){scene.fog.color.set('#0a0710');scene.fog.near=5.5;scene.fog.far=22}
  updateNearby();updateHud();
  if(result==='victory'){
   if(run.kind==='elite'){completeElite(run.eliteId)}
+  else if(run.kind==='side'){markQuestReady(run.questId,'旧商道的暗影已被清除');showDialog('旧商道',`<p>货箱底下压着半张商队路单，上面有赫敏娜的印章。暗影已经散去，失踪的人却只剩几件被撕破的斗篷。</p><p style="color:#bda66f">支线目标完成 · 回镇务委托板领取奖励</p>`)}
   else if(run.kind==='boss'){completeBoss()}
   else{const gold=35;state.player.gold+=gold;gainXp(35);gainReputation(1);state.player.inventory.push({id:'shadowShard',name:'暗影碎片',count:1,desc:'禁秘森林魔物留下的黑色结晶'});save();showDialog('暗影退去',`<p>最后一只暗影化作黑雾散去。石阵中央只剩一枚仍在发烫的暗影碎片。</p><p style="color:#bda66f">获得 ${gold} 金币 · 暗影碎片 ×1</p>`);showWhisper('更深处的黑塔，似乎听见了这里的动静。',5000)}
  }else if(result==='defeat'){
@@ -2193,7 +2415,7 @@ function completeElite(id){
  }
  else{updateStoryObjective()}
  refreshRoute();
- showDialog(info.name,`<p>${info.story}</p><p>暗影散去，你从对方留下的灰烬中拾起了「${info.loot.name}」。</p><p style="color:#bda66f">精英 ${n}/4 · 获得 60 金币、${info.loot.name}、经验与声望</p>${n>=4?'<p>石阵以南的黑塔之门已经开启。</p>':''}`);
+ showDialog(info.name,`<p>${info.story}</p><p>暗影散去，你从对方留下的灰烬中拾起了「${info.loot.name}」。</p><p style="color:#bda66f">精英 ${n}/4 · 获得 60 金币、${info.loot.name}、经验与声望</p>${n>=4?'<p>石阵以南的黑塔之门已经开启。</p><p style="color:#c8b98a">守夜人的声音从石像里传来：凯勒的女儿叫莉娅。她的灵魂被拆成三份，分别藏在名字、月光草和旧商道里。回镇务委托板接下预备委托，能削弱黑塔的护盾。</p>':''}`);
 }
 function chooseLegendary(kind){
  const st=ensureStory();if(st.legendary)return;
@@ -2221,7 +2443,9 @@ function updateForestCombat(dt,now){
   if(!b.target||!b.target.alive){world.remove(b.sprite);if(b.sprite.material){if(b.sprite.material.map)b.sprite.material.map.dispose();b.sprite.material.dispose()}combatBolts.splice(i,1);continue}
   const tx=b.target.group.position.x,ty=b.target.group.position.y+1.05,tz=b.target.group.position.z;
   const dx=tx-b.sprite.position.x,dy=ty-b.sprite.position.y,dz=tz-b.sprite.position.z,dist=Math.hypot(dx,dy,dz);
-  if(dist<.45){b.target.hp-=b.damage;updateEnemyBar(b.target);combatBurst(tx,ty,tz,b.damage>20?'#ffdc8c':'#ffb06e',1.1);world.remove(b.sprite);if(b.sprite.material){if(b.sprite.material.map)b.sprite.material.map.dispose();b.sprite.material.dispose()}combatBolts.splice(i,1);if(b.target.hp<=0)killForestEnemy(b.target);else updateCombatHud();}
+  if(dist<.45){
+   if(b.target.kind==='boss'&&b.target.shielded){combatBurst(tx,ty,tz,'#a98cff',1.2);toast('灵魂护盾吸收了伤害 · 先击败残影');world.remove(b.sprite);if(b.sprite.material){if(b.sprite.material.map)b.sprite.material.map.dispose();b.sprite.material.dispose()}combatBolts.splice(i,1);continue}
+   b.target.hp-=b.damage;updateEnemyBar(b.target);combatBurst(tx,ty,tz,b.damage>20?'#ffdc8c':'#ffb06e',1.1);world.remove(b.sprite);if(b.sprite.material){if(b.sprite.material.map)b.sprite.material.map.dispose();b.sprite.material.dispose()}combatBolts.splice(i,1);if(b.target.hp<=0)killForestEnemy(b.target);else updateCombatHud();}
   else{const step=Math.min(1,14*dt/dist);b.sprite.position.x+=dx*step;b.sprite.position.y+=dy*step;b.sprite.position.z+=dz*step}
   if(b.life<=0){world.remove(b.sprite);if(b.sprite.material){if(b.sprite.material.map)b.sprite.material.map.dispose();b.sprite.material.dispose()}combatBolts.splice(i,1)}
  }
@@ -2232,8 +2456,24 @@ function updateForestCombat(dt,now){
   e.group.rotation.y=Math.atan2(dx,dz);e.group.position.y=.035+Math.sin(now*.003+e.phase)*.06;
   e.bar.quaternion.copy(camera.quaternion);
   if(e.kind==='boss'){
-   if(e.bossPhase===1&&e.hp<=e.maxHp*2/3){e.bossPhase=2;e.damage=21;e.speed=1.02;e.group.scale.setScalar(1.7);if(e.light)e.light.color.set('#d05a90');showWhisper('凯勒的声音变成了另一个人的声音。妻子的灵魂残影缠住了他。',4200);updateCombatHud()}
-   else if(e.bossPhase===2&&e.hp<=e.maxHp/3){e.bossPhase=3;e.damage=25;e.speed=1.16;e.group.scale.setScalar(1.85);if(e.light)e.light.color.set('#ff4060');showWhisper('黑塔开始崩塌。失控的暗影实体从祭坛里挣脱出来。',4200);updateCombatHud()}
+   if(e.bossPhase===1&&e.hp<=e.maxHp*2/3&&!e.summoned2){
+    e.bossPhase=2;e.summoned2=true;e.damage=30;e.speed=.96;e.group.scale.setScalar(1.78);if(e.light)e.light.color.set('#d05a90');
+    spawnBossAdds(e,2);e.shielded=true;e.shieldUntil=now+(ensureStory().blessingLetter?11000:15000);
+    showWhisper('妻子的灵魂残影从祭坛里爬出，替凯勒挡住了所有咒文。先击碎残影！',5200);updateCombatHud();
+   }else if(e.bossPhase===2&&e.hp<=e.maxHp/3&&!e.summoned3){
+    e.bossPhase=3;e.summoned3=true;e.damage=38;e.speed=1.12;e.group.scale.setScalar(1.95);if(e.light)e.light.color.set('#ff4060');
+    spawnBossAdds(e,3);e.shielded=true;e.shieldUntil=now+(ensureStory().blessingLetter?11000:15000);
+    showWhisper('黑塔开始崩塌。三道灵魂残影围住了祭坛，凯勒在护盾后狂笑。',5200);updateCombatHud();
+   }
+   if(e.shielded&&(!forestCombat.enemies.some(a=>a.alive&&a.kind==='add')||now>e.shieldUntil)){
+    e.shielded=false;showWhisper('灵魂护盾碎裂，凯勒的破绽暴露出来。',2600);updateCombatHud();
+   }
+   if(!e.enraged&&now>e.enrageAt){e.enraged=true;e.damage=Math.round(e.damage*1.4);e.speed*=1.16;showWhisper('黑塔的钟声彻底停了。凯勒进入狂暴。',4200);updateCombatHud()}
+   if(e.bossPhase>=2&&now>e.nextHazard){
+    e.nextHazard=now+6200;
+    createBossHazard(player.position.x,player.position.z,1.4,17);
+    createBossHazard(e.group.position.x*.35+player.position.x*.65,e.group.position.z*.35+player.position.z*.65,1.15,15);
+   }
   }
   if(dist>1.35){const step=Math.min(dist-1.28,e.speed*dt);e.group.position.x+=dx/dist*step;e.group.position.z+=dz/dist*step}
   for(const other of forestCombat.enemies){if(other===e||!other.alive)continue;const ox=e.group.position.x-other.group.position.x,oz=e.group.position.z-other.group.position.z,od=Math.hypot(ox,oz);if(od<1.1&&od>.001){const push=(1.1-od)*.5;e.group.position.x+=ox/od*push;e.group.position.z+=oz/od*push}}
@@ -2242,6 +2482,11 @@ function updateForestCombat(dt,now){
    if(player.position.y>.55)showWhisper('你跃起避开了暗影的扑击。',1100);
    else{damageForestPlayer(e.damage);if(!forestCombat)break}
   }
+ }
+ for(let i=combatHazards.length-1;i>=0;i--){
+  const h=combatHazards[i];h.age+=dt;h.ring.material.opacity=Math.max(0,.65*(1-h.age/h.life));h.ring.scale.setScalar(1+Math.sin(h.age*8)*.05);
+  if(!h.hit&&h.age>.55){h.hit=true;const d=Math.hypot(player.position.x-h.x,player.position.z-h.z);if(d<h.radius&&player.position.y<.55)damageForestPlayer(h.damage);if(!forestCombat)break}
+  if(h.age>=h.life){if(h.ring.parent)world.remove(h.ring);h.ring.geometry.dispose();h.ring.material.dispose();combatHazards.splice(i,1)}
  }
  for(let i=combatBursts.length-1;i>=0;i--){const b=combatBursts[i];b.age+=dt;b.sprite.scale.setScalar(.7+b.age*4);b.sprite.material.opacity=Math.max(0,1-b.age/b.life);if(b.age>=b.life){if(b.sprite.parent)world.remove(b.sprite);if(b.sprite.material){if(b.sprite.material.map)b.sprite.material.map.dispose();b.sprite.material.dispose()}combatBursts.splice(i,1)}}
  if(forestArenaRing)forestArenaRing.material.opacity=.36+Math.sin(now*.004)*.08;
@@ -2664,8 +2909,9 @@ function sendChat(text){
 
 function doInteract(){if(!nearby||doorBusy||forestCombat||studyState||lookoutState)return;const a=nearby;
  if(a.action==='elite'){const st=ensureStory();if(st.chapter<2){showDialog('雾中的低语','<p>雾里没有回应。你还没有把钟声、黑塔和昨夜的影子拼在一起。</p>');return}if(st.elites[a.elite]){showDialog(ELITES[a.elite].name,'<p>这名精英已经被击败。她的位置只剩一圈冷却的符文。</p>');return}startEliteCombat(a.elite);return}
- if(a.action==='tower'){const st=ensureStory();if(storyEliteCount()<4){showDialog('黑塔之门','<p>黑塔的门仍然紧闭。四名精英还活着，门上的符文没有全部熄灭。</p><p style="color:#bda66f">已击败 ${storyEliteCount()}/4</p>');return}if(!st.legendary){showDialog('林地守望者','<p>“四名精英都倒下了。黑塔的门已经开启，但在你进去之前，选一件森林能给你的东西。”</p><p><button class="button" data-legendary="attack">攻击 · 黑塔余烬法杖</button></p><p><button class="button" data-legendary="defense">防御 · 守夜人的最后壁垒</button></p><p><button class="button" data-legendary="heal">治疗 · 月泉之泪</button></p>');return}switchMap('blackTower',[400,600]);return}
- if(a.action==='boss'){const st=ensureStory();if(st.bossDefeated){showDialog('黑塔','<p>灵魂祭坛已经冷却。凯勒·斯威尼不在这里了。</p>');return}startBossCombat();return}
+ if(a.action==='tower'){const st=ensureStory();if(storyEliteCount()<4){showDialog('黑塔之门','<p>黑塔的门仍然紧闭。四名精英还活着，门上的符文没有全部熄灭。</p><p style="color:#bda66f">已击败 ${storyEliteCount()}/4</p>');return}if(!st.legendary){showDialog('林地守望者','<p>“四名精英都倒下了。黑塔的门已经开启，但在你进去之前，选一件森林能给你的东西。”</p><p style="color:#bda66f">委托板上的预备委托会削弱凯勒；没有完成也能进塔，但会难得多。</p><p><button class="button" data-legendary="attack">攻击 · 黑塔余烬法杖</button></p><p><button class="button" data-legendary="defense">防御 · 守夜人的最后壁垒</button></p><p><button class="button" data-legendary="heal">治疗 · 月泉之泪</button></p>');return}switchMap('blackTower',[400,600]);return}
+ if(a.action==='boss'){const st=ensureStory();if(st.bossDefeated){showDialog('黑塔','<p>灵魂祭坛已经冷却。凯勒·斯威尼不在这里了。</p>');return}openBossIntro();return}
+ if(a.action==='quest'){handleQuestPoint(a);return}
  if(a.action==='farm'){openFarmPlot(a.plot);return}
  if(a.action==='lookout'){beginLookout();return}
  if(a.action==='map'){
@@ -2676,7 +2922,7 @@ function doInteract(){if(!nearby||doorBusy||forestCombat||studyState||lookoutSta
  if(a.action==='shop'){const door=townDoors.shop;if(door){doorBusy=true;animateDoor(door,true);toast('木门吱呀一声打开了');setTimeout(()=>{openShop();doorBusy=false;setTimeout(()=>animateDoor(door,false),1500)},420);return}openShop();return}
  if(a.action==='book'){openBook(a.book);return}
  if(a.action==='innStay'){openInnDialog();return}if(a.action==='quests'){renderQuests();openModal('questModal');const q=document.getElementById('questItems');q.scrollTop=0;q.focus({preventScroll:true});requestAnimationFrame(updateQuestScrollHint);return}if(a.action==='npc'){openNpcChat(a.npc);return}if(a.action==='library'){showDialog('📚 鸦影古堡图书馆',`<p>高窗漏下灰蓝月光，书架间浮着尘埃。你有 ${state.player.gold} 金币，体力上限 ${state.player.maxHp}，魔力上限 ${state.player.maxMp}。</p><p style="color:#bda66f">研读会让游戏时间流逝。你可以随时合上书。</p><p><button class="button" data-study="gold">研读半小时 · 30 金币（魔力上限 +5）</button> <button class="button" data-study="time">静坐一小时（体力上限 +10）</button></p>`);return}if(a.action==='forest'){startForestCombat();return}if(a.action==='blessing'){const night=dayFactor<=.38,gain=night?25:10,mana=night?10:5;state.player.hp=Math.min(state.player.maxHp,state.player.hp+gain);state.player.mp=Math.min(state.player.maxMp,state.player.mp+mana);save();toast(`月泉为你恢复 ${gain} 点体力${night?' · 夜色让泉水更明亮':''}`);return}if(a.action==='memory'){showDialog('守夜人的誓言','<p>无论浓雾如何吞没道路，守夜人都会为归乡者留一盏灯。</p><p>指尖拂过铭文，石像眼中的微光渐渐沉静下来。</p>');return}if(a.action==='greenhouse'){showDialog('草药温室','<p>玻璃穹顶拢住一室暖雾。萝丝玛丽教你辨认月光草与雾莓，也提醒你别在禁林深处独自采药。</p>');return}if(a.action==='innInfo'){openInnDialog()}}
-function openProfile(){document.getElementById('profileName').value=state.player.name;document.getElementById('profileOriginNote').textContent=state.player.originName?`出身：${state.player.originName} · 魔杖：${state.player.wandName||'橡木'} · Lv.${state.player.level||1} · 声望 ${state.player.reputation||0} · 药剂 ${potionCount()} · 魔咒：${state.player.spells.join('、')||'无'}。姓名与形象可以修改，出身与魔杖在本次旅途中固定。`:'档案保存在当前浏览器中。';Music.updateUI();document.getElementById('avatarGrid').innerHTML=avatars.map(a=>`<button class="avatar-choice ${a===state.player.avatar?'selected':''}" data-avatar="${a}" aria-label="选择形象 ${a}">${a}</button>`).join('');openModal('profileModal')}
+function openProfile(){document.getElementById('profileName').value=state.player.name;document.getElementById('profileOriginNote').textContent=state.player.originName?`出身：${state.player.originName} · 魔杖：${state.player.wandName||'橡木'} · Lv.${state.player.level||1} · 声望 ${state.player.reputation||0} · 药剂 ${potionCount()} · 魔咒：${state.player.spells.join('、')||'无'}。姓名与形象可以修改，出身与魔杖在本次旅途中固定。`:'档案保存在当前浏览器中。';Music.updateUI();renderSideQuestHud();document.getElementById('avatarGrid').innerHTML=avatars.map(a=>`<button class="avatar-choice ${a===state.player.avatar?'selected':''}" data-avatar="${a}" aria-label="选择形象 ${a}">${a}</button>`).join('');openModal('profileModal')}
 function saveProfile(){state.player.name=document.getElementById('profileName').value.trim().slice(0,20)||'新旅人';save();refreshPlayerLook();closeModals();toast('旅人档案已保存')}
 function profileAvatar(a){if(avatars.includes(a)){state.player.avatar=a;save();refreshPlayerLook();openProfile()}}
 // 建立全新档案：重置进度并结算出身加成，随后直接进入场景。
@@ -2762,7 +3008,7 @@ function updateJump(dt){
  crouchAmount+=((crouching?1:0)-crouchAmount)*Math.min(1,dt*9);
  if(playerAvatar)playerAvatar.scale.y=(playerAvatar.userData.baseScale||1.04)*(1-.26*crouchAmount)
 }
-function setKey(e,on){if(on&&e.repeat)return;if(on&&e.key.toLowerCase()==='escape'&&document.pointerLockElement){e.preventDefault();return}if(lookoutState){if(on&&e.key.toLowerCase()==='escape'){e.preventDefault();endLookout()}return}if(studyState){if(on&&e.key.toLowerCase()==='escape'){e.preventDefault();finishLibraryStudy()}return}const tag=e.target&&e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||(e.target&&e.target.isContentEditable))return;if(introActive||sleepState)return;const raw=e.key.toLowerCase(),key=raw.replace('arrowup','w').replace('arrowdown','s').replace('arrowleft','a').replace('arrowright','d');if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright',' '].includes(raw))e.preventDefault();if(raw==='control'){crouching=on;return}if(on)keys.add(key);else keys.delete(key);if(on&&raw===' '&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))tryJump();if(on&&raw==='v'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleView();if(on&&raw==='e'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))doInteract();if(on&&raw==='m'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleMiniMap();if(on&&raw==='r'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleRoute();if(on&&raw==='t'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleDayNight();if(on&&raw==='f'&&forestCombat&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))castForestSpell();if(on&&raw==='h'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))useHealingPotion();if(on&&raw==='escape'){if(forestCombat){fleeForestCombat();return}if(miniMap.classList.contains('large'))toggleMiniMap(false);else if(document.querySelector('.overlay.open'))closeModals();else if(document.getElementById('menu').hidden)showEntryScreen()}}
+function setKey(e,on){if(on&&e.repeat)return;if(on&&e.key.toLowerCase()==='escape'&&document.pointerLockElement){e.preventDefault();return}if(lookoutState){if(on&&e.key.toLowerCase()==='escape'){e.preventDefault();endLookout()}return}if(studyState){if(on&&e.key.toLowerCase()==='escape'){e.preventDefault();finishLibraryStudy()}return}const tag=e.target&&e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||(e.target&&e.target.isContentEditable))return;if(introActive||sleepState)return;const raw=e.key.toLowerCase(),key=raw.replace('arrowup','w').replace('arrowdown','s').replace('arrowleft','a').replace('arrowright','d');if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright',' '].includes(raw))e.preventDefault();if(raw==='control'){crouching=on;return}if(on)keys.add(key);else keys.delete(key);if(on&&raw===' '&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))tryJump();if(on&&raw==='v'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleView();if(on&&raw==='e'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))doInteract();if(on&&raw==='m'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleMiniMap();if(on&&raw==='r'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))cycleEmote();if(on&&raw==='g'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleRoute();if(on&&raw==='t'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))toggleDayNight();if(on&&raw==='f'&&forestCombat&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))castForestSpell();if(on&&raw==='h'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))useHealingPotion();if(on&&raw==='j'&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open'))useManaPotion();if(on&&raw==='escape'){if(forestCombat){fleeForestCombat();return}if(miniMap.classList.contains('large'))toggleMiniMap(false);else if(document.querySelector('.overlay.open'))closeModals();else if(document.getElementById('menu').hidden)showEntryScreen()}}
 function tick(now){
  requestAnimationFrame(tick);
  const dt=Math.min((now-last)/1000||0,.04);last=now;
@@ -2782,6 +3028,7 @@ function tick(now){
  if(currentMapId==='inn'&&player&&!transitioning&&!sleepState&&!introActive&&document.getElementById('menu').hidden&&!document.querySelector('.overlay.open')&&player.position.x>13.3&&player.position.x<14.9&&player.position.z>5.8&&player.position.z<10.0&&!studyState&&!lookoutState)switchMap('innUpstairs',[400,430]);
  if(player&&document.getElementById('menu').hidden&&!transitioning&&!studyState&&!lookoutState&&!document.querySelector('.overlay.open'))followCamera();
  if(playerAvatar&&!sleepState&&!studyState)playerAvatar.position.y=Math.sin(now*.0024)*.016;
+ updateEmote(now);
  for(const a of npcAvatars){
   a.position.y=Math.sin(now*.002+(a.userData.phase||0))*.012;
   if(player){const dx=player.position.x-a.position.x,dz=player.position.z-a.position.z;if(dx*dx+dz*dz<42){const target=Math.atan2(dx,dz);let diff=target-a.rotation.y;while(diff>Math.PI)diff-=Math.PI*2;while(diff<-Math.PI)diff+=Math.PI*2;a.rotation.y+=diff*Math.min(1,dt*4.5)}}
@@ -2868,10 +3115,11 @@ Music.updateUI();
 let musicGesture=false;function startMusicGesture(){if(musicGesture)return;musicGesture=true;Music.start()}
 document.addEventListener('pointerdown',startMusicGesture,{capture:true,once:true});
 document.addEventListener('keydown',startMusicGesture,{capture:true,once:true});
-document.getElementById('profileButton').onclick=openProfile;document.getElementById('timeButton').onclick=toggleDayNight;const routeHudEl=document.getElementById('routeHud');if(routeHudEl){routeHudEl.onclick=()=>toggleRoute();routeHudEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleRoute()}}}document.getElementById('lookoutReturn').onclick=endLookout;document.getElementById('combatCast').onclick=castForestSpell;document.getElementById('combatFlee').onclick=fleeForestCombat;document.getElementById('returnHome').onclick=showEntryScreen;document.getElementById('saveProfile').onclick=saveProfile;document.getElementById('avatarGrid').addEventListener('click',e=>{const b=e.target.closest('[data-avatar]');if(b)profileAvatar(b.dataset.avatar)});document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
+document.getElementById('profileButton').onclick=openProfile;document.getElementById('timeButton').onclick=toggleDayNight;const routeHudEl=document.getElementById('routeHud');if(routeHudEl){routeHudEl.onclick=()=>toggleRoute();routeHudEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleRoute()}}}const sideQuestHudEl=document.getElementById('sideQuestHud');if(sideQuestHudEl){sideQuestHudEl.onclick=()=>{renderQuests();openModal('questModal');};sideQuestHudEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();renderQuests();openModal('questModal')}}}document.getElementById('lookoutReturn').onclick=endLookout;document.getElementById('combatCast').onclick=castForestSpell;document.getElementById('combatFlee').onclick=fleeForestCombat;document.getElementById('returnHome').onclick=showEntryScreen;document.getElementById('saveProfile').onclick=saveProfile;document.getElementById('avatarGrid').addEventListener('click',e=>{const b=e.target.closest('[data-avatar]');if(b)profileAvatar(b.dataset.avatar)});document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
 document.getElementById('shopItems').addEventListener('click',e=>{const b=e.target.closest('[data-buy]');if(b)buy(b.dataset.buy)});document.getElementById('questItems').addEventListener('click',e=>{const a=e.target.closest('[data-quest]'),c=e.target.closest('[data-complete]');if(a)task(a.dataset.quest);if(c)task(c.dataset.complete,true)});document.getElementById('dialogBody').addEventListener('click',e=>{
  const rescue=e.target.closest('[data-rescue]');if(rescue){closeModals();switchMap('town',TOWN_SPAWN);return}
  const legendary=e.target.closest('[data-legendary]');if(legendary){chooseLegendary(legendary.dataset.legendary);return}
+ const bossStart=e.target.closest('[data-boss-start]');if(bossStart){closeModals();startBossCombat();return}
  const towerEnter=e.target.closest('[data-tower-enter]');if(towerEnter){closeModals();switchMap('blackTower',[400,600]);return}
  const endReturn=e.target.closest('[data-end-return]');if(endReturn){closeModals();switchMap('town',TOWN_SPAWN);return}
 
