@@ -283,6 +283,9 @@ body.lookingout .mobile-pad,body.lookingout .touch-interact,body.lookingout .hin
 .music-control{position:fixed;right:15px;bottom:62px;z-index:6;display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:6px 11px;border:1px solid #c8b67888;border-radius:20px;background:#111a18e8;color:#e8dfc7;box-shadow:0 5px 20px #0007;backdrop-filter:blur(6px);font:12px Georgia,"Noto Serif SC",serif;letter-spacing:1px;cursor:pointer;pointer-events:auto;transition:.2s}
 .music-control span{color:#e7c980;font-size:17px;line-height:1}.music-control small{font-size:10px;color:#bdb49a;letter-spacing:1px}.music-control:hover{border-color:#e7c980;background:#1b2b23f0}.music-control.muted{opacity:.62}.music-control.muted span{color:#7f8778}.music-control.playing span{animation:musicPulse 2.8s ease-in-out infinite}@keyframes musicPulse{0%,100%{text-shadow:0 0 0 #e7c98000}50%{text-shadow:0 0 12px #e7c980aa}}
 .music-row{display:flex;align-items:center;gap:10px;margin:13px 0 4px;padding-top:12px;border-top:1px solid #c8b67844;color:#d8c48f;font-size:12px}.music-row label{flex:none}.music-row input[type=range]{flex:1;accent-color:#e7c980;min-width:80px}.music-row em{flex:none;width:38px;text-align:right;color:#a79362;font:11px Georgia,serif;font-style:normal}.music-note{color:#8f9d8c;font-size:10px;line-height:1.6;margin:4px 0 0}
+.audio-status{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:8px 0 12px;padding:7px 9px;border:1px solid #c8b67844;background:#0b1311;border-radius:3px}
+.audio-status span{color:#aeb9a8;font-size:10px;line-height:1.4}
+.audio-status .button{padding:4px 9px;font-size:10px}
 @media(max-width:700px){.music-control{right:14px;bottom:96px;min-height:30px;padding:5px 9px}.music-control small{display:none}}
 @media(max-width:700px){
  .vignette{background:radial-gradient(ellipse at 50% 45%,transparent 35%,rgba(2,7,5,.2) 70%,rgba(2,7,5,.5) 100%)}
@@ -485,7 +488,7 @@ body.lookingout .mobile-pad,body.lookingout .touch-interact,body.lookingout .hin
   </section>
  </div>
 </section>
-<div id="profileModal" class="overlay"><section class="panel"><div class="panel-head"><h2>旅人档案</h2><button class="close" data-close>×</button></div><p id="profileOriginNote">档案保存在当前浏览器中。</p><label>巫师姓名<input id="profileName" class="name-input" maxlength="20" placeholder="例如：艾琳·星河"></label><div style="margin-top:12px">选择巫师形象</div><div id="avatarGrid" class="avatar-grid"></div><div class="music-row"><label for="musicVolume">背景音乐</label><input id="musicVolume" type="range" min="0" max="100" step="1" value="32"><em id="musicPercent">32%</em></div><p class="music-note">配乐由浏览器实时生成，不使用外部音频文件。首次点击画面或按钮后开始播放。</p><button id="saveProfile" class="button">保存档案</button></section></div>
+<div id="profileModal" class="overlay"><section class="panel"><div class="panel-head"><h2>旅人档案</h2><button class="close" data-close>×</button></div><p id="profileOriginNote">档案保存在当前浏览器中。</p><label>巫师姓名<input id="profileName" class="name-input" maxlength="20" placeholder="例如：艾琳·星河"></label><div style="margin-top:12px">选择巫师形象</div><div id="avatarGrid" class="avatar-grid"></div><div class="music-row"><label for="musicVolume">背景音乐</label><input id="musicVolume" type="range" min="0" max="100" step="1" value="32"><em id="musicPercent">32%</em></div><p class="music-note">配乐由浏览器实时生成，不使用外部音频文件。首次点击画面或按钮后开始播放。</p><div class="audio-status"><span id="musicStatus">音频：检测中</span><button id="musicTest" class="button" type="button">测试声音</button></div><button id="saveProfile" class="button">保存档案</button></section></div>
 <div id="guideModal" class="overlay guide-modal"><section class="panel guide-panel">
  <div class="panel-head"><div><small class="guide-kicker">BEFORE THE BELL · 启程前</small><h2>雾钟镇游戏指南</h2></div><button class="close" id="guideClose" type="button">×</button></div>
  <p class="guide-lead">钟声将熄。你将以一名新巫师的身份进入雾钟镇，调查凯勒·斯威尼与禁秘森林里的黑塔。</p>
@@ -876,9 +879,11 @@ const IS_MAC=(()=>{try{const p=(navigator.userAgentData&&navigator.userAgentData
 const Music=(()=>{
  let ctx=null,master=null,dry=null,wet=null,verbIn=null,padFilter=null,drones=[],chordTimer=null,bellTimer=null,wind=null,started=false;
  let chordIndex=0,mood='town',bellGap=2400;
- let muted=false,volume=.46;
+ let muted=false,volume=.56;
  try{muted=localStorage.getItem('mistbell_music_muted_v1')==='1'}catch(_){ }
  try{const saved=parseFloat(localStorage.getItem('mistbell_music_volume_v1'));if(Number.isFinite(saved))volume=Math.max(0,Math.min(1,saved))}catch(_){ }
+ // 一次性解除旧版本可能留下的静音/零音量状态；用户之后仍可手动静音。
+ try{if(localStorage.getItem('mistbell_audio_reset_v1')!=='1'){muted=false;if(volume<.05)volume=.56;localStorage.setItem('mistbell_music_muted_v1','0');localStorage.setItem('mistbell_music_volume_v1',String(volume));localStorage.setItem('mistbell_audio_reset_v1','1')}}catch(_){ }
  const chords=[[73.42,87.31,110.0],[58.27,87.31,116.54],[49.0,73.42,98.0],[55.0,82.41,110.0]];
  const bells=[293.66,349.23,392.0,440.0,523.25,587.33,659.25];
  function ensure(){
@@ -902,7 +907,7 @@ const Music=(()=>{
   const pans=[-.4,.1,.45];
   for(let i=0;i<3;i++){
    const osc=ctx.createOscillator(),g=ctx.createGain(),pan=ctx.createStereoPanner?ctx.createStereoPanner():null;
-   osc.type=types[i];osc.frequency.value=chords[0][i];g.gain.value=.038-i*.007;
+   osc.type=types[i];osc.frequency.value=chords[0][i];g.gain.value=.052-i*.009;
    if(pan){pan.pan.value=pans[i];osc.connect(g);g.connect(pan);pan.connect(padFilter)}
    else{osc.connect(g);g.connect(padFilter)}
    osc.start();drones.push({osc,g});
@@ -910,7 +915,7 @@ const Music=(()=>{
   const lfo=ctx.createOscillator(),lfoGain=ctx.createGain();lfo.frequency.value=.045;lfoGain.gain.value=150;lfo.connect(lfoGain);lfoGain.connect(padFilter.frequency);lfo.start();
   // wind
   const wlen=ctx.sampleRate*2,wbuf=ctx.createBuffer(1,wlen,ctx.sampleRate),wd=wbuf.getChannelData(0);for(let i=0;i<wlen;i++)wd[i]=Math.random()*2-1;
-  const wsrc=ctx.createBufferSource();wsrc.buffer=wbuf;wsrc.loop=true;const wf=ctx.createBiquadFilter();wf.type='lowpass';wf.frequency.value=300;const wg=ctx.createGain();wg.gain.value=.019;wsrc.connect(wf);wf.connect(wg);wg.connect(dry);wsrc.start();wind=wsrc;
+  const wsrc=ctx.createBufferSource();wsrc.buffer=wbuf;wsrc.loop=true;const wf=ctx.createBiquadFilter();wf.type='lowpass';wf.frequency.value=300;const wg=ctx.createGain();wg.gain.value=.024;wsrc.connect(wf);wf.connect(wg);wg.connect(dry);wsrc.start();wind=wsrc;
   chordTimer=setInterval(nextChord,15000);
   bellLoop();
   playBell(392);
@@ -928,7 +933,7 @@ const Music=(()=>{
  }
  function playBell(freq){
   if(!ctx||muted)return;const t=ctx.currentTime+.04,osc=ctx.createOscillator(),g=ctx.createGain(),pan=ctx.createStereoPanner?ctx.createStereoPanner():null;
-  osc.type='sine';osc.frequency.value=freq;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.075,t+.06);g.gain.exponentialRampToValueAtTime(.0001,t+2.8);
+  osc.type='sine';osc.frequency.value=freq;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.11,t+.06);g.gain.exponentialRampToValueAtTime(.0001,t+2.8);
   if(pan){pan.pan.value=(Math.random()*2-1)*.55;osc.connect(g);g.connect(pan);pan.connect(dry);if(verbIn)pan.connect(verbIn)}else{osc.connect(g);g.connect(dry);if(verbIn)g.connect(verbIn)}
   osc.start(t);osc.stop(t+2.9);
  }
@@ -948,6 +953,20 @@ const Music=(()=>{
   bellGap=target;
   if(wet)wet.gain.setTargetAtTime(combat?.24:night?.45:.34,ctx.currentTime,1.2);
  }
+ function chime(){
+  if(!ensure())return false;
+  if(ctx.state!=='running'){try{const p=ctx.resume();if(p&&p.catch)p.catch(()=>{})}catch(_){}}
+  if(muted){muted=false;savePrefs();applyGain()}
+  playBell(523.25);setTimeout(()=>playBell(659.25),170);return true;
+ }
+ function testTone(){
+  if(!ensure())return false;
+  if(ctx.state!=='running'){try{const p=ctx.resume();if(p&&p.catch)p.catch(()=>{})}catch(_){}}
+  if(muted){muted=false;savePrefs();applyGain()}
+  const t=ctx.currentTime+.03;[523.25,659.25,783.99].forEach((f,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,t+i*.08);g.gain.exponentialRampToValueAtTime(.16,t+i*.08+.03);g.gain.exponentialRampToValueAtTime(.0001,t+i*.08+1.1);o.connect(g);g.connect(master);o.start(t+i*.08);o.stop(t+i*.08+1.2)});
+  if(!started)start();
+  return true;
+ }
  function applyGain(){if(master&&ctx)master.gain.setTargetAtTime(muted?0:volume,ctx.currentTime,.16);updateUI()}
  function savePrefs(){try{localStorage.setItem('mistbell_music_muted_v1',muted?'1':'0');localStorage.setItem('mistbell_music_volume_v1',String(volume))}catch(_){} }
  function toggle(){if(!started&&!muted){start();return muted}muted=!muted;savePrefs();applyGain();if(!muted)start();if(typeof toast==='function')toast(muted?'背景音乐已静音':'背景音乐已开启');return muted}
@@ -959,16 +978,22 @@ const Music=(()=>{
   if(slider)slider.value=String(Math.round(volume*100));
   if(pct)pct.textContent=Math.round(volume*100)+'%';
  }
- return {start,resume,toggle,setVolume,updateAmbience,updateUI,debug:()=>({started,muted,volume,state:ctx?ctx.state:'none'}),get muted(){return muted},get volume(){return volume},get started(){return started}};
+ return {start,resume,toggle,setVolume,chime,testTone,updateAmbience,updateUI,debug:()=>({started,muted,volume,state:ctx?ctx.state:'none'}),get muted(){return muted},get volume(){return volume},get started(){return started}};
 })();
 
 let musicNoticeShown=false;
+function refreshMusicStatus(){
+ const el=document.getElementById('musicStatus');if(!el)return;
+ const d=Music.debug();const label=d.state==='running'?'运行中':d.state==='suspended'?'已暂停':d.state==='none'?'未启动':d.state;
+ el.textContent=`音频：${label} · ${d.muted?'静音':'开启'} · 音量 ${Math.round(d.volume*100)}%`;
+}
 function notifyMusicState(){
  if(musicNoticeShown)return;musicNoticeShown=true;
- const d=Music.debug();
+ Music.start();Music.resume();const d=Music.debug();
  if(d.muted)setTimeout(()=>toast('背景音乐当前为静音 · 点击右下角 ♪ 开启'),1800);
  else if(d.volume<=.01)setTimeout(()=>toast('背景音乐音量为 0 · 在旅人档案里调高音量'),1800);
  else if(d.state==='suspended')setTimeout(()=>toast('浏览器暂停了音频 · 点击画面或右下角 ♪ 继续'),1800);
+ else setTimeout(()=>Music.chime(),600);
 }
 
 const skyGroup=new THREE.Group();scene.add(skyGroup);skyGroup.renderOrder=-10;
@@ -3015,7 +3040,7 @@ function doInteract(){if(flightState||!nearby||doorBusy||forestCombat||studyStat
  if(a.action==='shop'){const door=townDoors.shop;if(door){doorBusy=true;animateDoor(door,true);toast('木门吱呀一声打开了');setTimeout(()=>{openShop();doorBusy=false;setTimeout(()=>animateDoor(door,false),1500)},420);return}openShop();return}
  if(a.action==='book'){openBook(a.book);return}
  if(a.action==='innStay'){openInnDialog();return}if(a.action==='quests'){renderQuests();openModal('questModal');const q=document.getElementById('questItems');q.scrollTop=0;q.focus({preventScroll:true});requestAnimationFrame(updateQuestScrollHint);return}if(a.action==='npc'){openNpcChat(a.npc);return}if(a.action==='library'){showDialog('📚 鸦影古堡图书馆',`<p>高窗漏下灰蓝月光，书架间浮着尘埃。你有 ${state.player.gold} 金币，体力上限 ${state.player.maxHp}，魔力上限 ${state.player.maxMp}。</p><p style="color:#bda66f">研读会让游戏时间流逝。你可以随时合上书。</p><p><button class="button" data-study="gold">研读半小时 · 30 金币（魔力上限 +5）</button> <button class="button" data-study="time">静坐一小时（体力上限 +10）</button></p>`);return}if(a.action==='forest'){startForestCombat();return}if(a.action==='blessing'){const night=dayFactor<=.38,gain=night?25:10,mana=night?10:5;state.player.hp=Math.min(state.player.maxHp,state.player.hp+gain);state.player.mp=Math.min(state.player.maxMp,state.player.mp+mana);save();toast(`月泉为你恢复 ${gain} 点体力${night?' · 夜色让泉水更明亮':''}`);return}if(a.action==='memory'){showDialog('守夜人的誓言','<p>无论浓雾如何吞没道路，守夜人都会为归乡者留一盏灯。</p><p>指尖拂过铭文，石像眼中的微光渐渐沉静下来。</p>');return}if(a.action==='greenhouse'){showDialog('草药温室','<p>玻璃穹顶拢住一室暖雾。萝丝玛丽教你辨认月光草与雾莓，也提醒你别在禁林深处独自采药。</p>');return}if(a.action==='innInfo'){openInnDialog()}}
-function openProfile(){document.getElementById('profileName').value=state.player.name;document.getElementById('profileOriginNote').textContent=state.player.originName?`出身：${state.player.originName} · 魔杖：${state.player.wandName||'橡木'} · Lv.${state.player.level||1} · 声望 ${state.player.reputation||0} · 药剂 ${potionCount()} · 魔咒：${state.player.spells.join('、')||'无'}。姓名与形象可以修改，出身与魔杖在本次旅途中固定。`:'档案保存在当前浏览器中。';Music.updateUI();renderSideQuestHud();document.getElementById('avatarGrid').innerHTML=avatars.map(a=>`<button class="avatar-choice ${a===state.player.avatar?'selected':''}" data-avatar="${a}" aria-label="选择形象 ${a}">${a}</button>`).join('');openModal('profileModal')}
+function openProfile(){document.getElementById('profileName').value=state.player.name;document.getElementById('profileOriginNote').textContent=state.player.originName?`出身：${state.player.originName} · 魔杖：${state.player.wandName||'橡木'} · Lv.${state.player.level||1} · 声望 ${state.player.reputation||0} · 药剂 ${potionCount()} · 魔咒：${state.player.spells.join('、')||'无'}。姓名与形象可以修改，出身与魔杖在本次旅途中固定。`:'档案保存在当前浏览器中。';Music.updateUI();refreshMusicStatus();renderSideQuestHud();document.getElementById('avatarGrid').innerHTML=avatars.map(a=>`<button class="avatar-choice ${a===state.player.avatar?'selected':''}" data-avatar="${a}" aria-label="选择形象 ${a}">${a}</button>`).join('');openModal('profileModal')}
 function saveProfile(){state.player.name=document.getElementById('profileName').value.trim().slice(0,20)||'新旅人';save();refreshPlayerLook();closeModals();toast('旅人档案已保存')}
 function profileAvatar(a){if(avatars.includes(a)){state.player.avatar=a;save();refreshPlayerLook();openProfile()}}
 // 建立全新档案：重置进度并结算出身加成，随后直接进入场景。
@@ -3052,7 +3077,7 @@ function enterWorld(mapId,spawn,announce){
    document.getElementById('menu').hidden=true;
    document.getElementById('runtimeModal').classList.remove('open');
    miniMap.hidden=false;
-   setTimeout(notifyMusicState,1600);
+   Music.start();setTimeout(notifyMusicState,1600);
    resetOnboardingUI();
    if(window.__mistbellMarkSaved)window.__mistbellMarkSaved(state.player);
    setTimeout(()=>fade.classList.remove('cover'),90);
@@ -3203,12 +3228,14 @@ renderer.domElement.addEventListener('contextmenu',e=>e.preventDefault());miniMa
 document.getElementById('introNext').onclick=()=>{if(introIndex<INTRO_PAGES.length-1){introIndex++;renderIntro()}else closeIntro(false)};document.getElementById('introSkip').onclick=()=>closeIntro(true);window.__skipIntro=()=>closeIntro(true);window.__showIntro=()=>{ensureStory().introDone=false;openIntro()};
 document.getElementById('chatClose').onclick=closeChat;
 document.getElementById('chatForm').addEventListener('submit',e=>{e.preventDefault();sendChat(document.getElementById('chatInput').value)});document.getElementById('chatQuick').addEventListener('click',e=>{const topic=e.target.closest('[data-chat-topic]'),stay=e.target.closest('[data-chat-stay]');if(topic){sendChat(topic.dataset.chatTopic);return}if(stay){closeModals();setTimeout(()=>openInnDialog(),180)}});document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();closeChat()}});
-const musicBtn=document.getElementById('musicButton');if(musicBtn)musicBtn.onclick=()=>Music.toggle();
+const musicBtn=document.getElementById('musicButton');if(musicBtn)musicBtn.onclick=()=>{Music.toggle();refreshMusicStatus()};const musicTestBtn=document.getElementById('musicTest');if(musicTestBtn)musicTestBtn.onclick=()=>{const ok=Music.testTone();refreshMusicStatus();toast(ok?'测试音已播放 · 若仍无声请检查系统/标签页音量':'浏览器未能启动音频');};
 const musicVolume=document.getElementById('musicVolume');if(musicVolume)musicVolume.addEventListener('input',e=>Music.setVolume(Number(e.target.value)/100));
 Music.updateUI();
 function startMusicGesture(e){if(e&&e.target&&e.target.closest&&e.target.closest('#musicButton'))return;Music.start()}
 document.addEventListener('pointerdown',startMusicGesture,{capture:true});
 document.addEventListener('keydown',startMusicGesture,{capture:true});
+document.addEventListener('click',startMusicGesture,{capture:true});
+document.addEventListener('touchend',startMusicGesture,{capture:true,passive:true});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)Music.resume()});
 document.getElementById('profileButton').onclick=openProfile;document.getElementById('timeButton').onclick=toggleDayNight;const routeHudEl=document.getElementById('routeHud');if(routeHudEl){routeHudEl.onclick=()=>toggleRoute();routeHudEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleRoute()}}}const sideQuestHudEl=document.getElementById('sideQuestHud');if(sideQuestHudEl){sideQuestHudEl.onclick=()=>{renderQuests();openModal('questModal');};sideQuestHudEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();renderQuests();openModal('questModal')}}}const flightLandBtn=document.getElementById('flightLand');if(flightLandBtn)flightLandBtn.onclick=()=>endBroomFlight();document.getElementById('lookoutReturn').onclick=endLookout;document.getElementById('combatCast').onclick=castForestSpell;document.getElementById('combatFlee').onclick=fleeForestCombat;document.getElementById('returnHome').onclick=showEntryScreen;document.getElementById('saveProfile').onclick=saveProfile;document.getElementById('avatarGrid').addEventListener('click',e=>{const b=e.target.closest('[data-avatar]');if(b)profileAvatar(b.dataset.avatar)});document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
 document.getElementById('shopItems').addEventListener('click',e=>{const b=e.target.closest('[data-buy]');if(b)buy(b.dataset.buy)});document.getElementById('questItems').addEventListener('click',e=>{const a=e.target.closest('[data-quest]'),c=e.target.closest('[data-complete]');if(a)task(a.dataset.quest);if(c)task(c.dataset.complete,true)});document.getElementById('dialogBody').addEventListener('click',e=>{
